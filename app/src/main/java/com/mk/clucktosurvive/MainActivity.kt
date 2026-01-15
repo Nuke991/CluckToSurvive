@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.mk.clucktosurvive.navigation.AppNavigation
 import com.mk.clucktosurvive.ui.theme.CluckToSurviveTheme
 
 class MainActivity : ComponentActivity() {
@@ -21,12 +22,10 @@ class MainActivity : ComponentActivity() {
             // enableEdgeToEdge()
         setContent {
             CluckToSurviveTheme {
-                // Surface — це основний фон, на якому малюються екрани
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    // Викликаємо нашу навігацію, яка керує екранами
                     AppNavigation()
                 }
             }
