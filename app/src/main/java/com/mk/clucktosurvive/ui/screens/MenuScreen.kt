@@ -14,6 +14,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mk.clucktosurvive.R
 
+
+
+
 @Composable
 fun MenuScreen(
     onStartClick: () -> Unit,
@@ -33,15 +36,9 @@ fun MenuScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = "CLUCK TO SURVIVE",
-                fontSize = 32.sp,
-                modifier = Modifier.padding(bottom = 50.dp)
-            )
-
 
             Image(
-                painter = painterResource(id = R.drawable.Start_button),
+                painter = painterResource(id = R.drawable.start_button),
                 contentDescription = "Start Button",
                 modifier = Modifier
                     .fillMaxWidth(0.6f)
@@ -50,7 +47,7 @@ fun MenuScreen(
             )
 
             Image(
-                painter = painterResource(id = R.drawable.Records_button),
+                painter = painterResource(id = R.drawable.records_button),
                 contentDescription = "Start Button",
                 modifier = Modifier
                     .fillMaxWidth(0.6f)
@@ -59,12 +56,12 @@ fun MenuScreen(
             )
 
             Image(
-                painter = painterResource(id = R.drawable.PrivacyPolicy_Button),
+                painter = painterResource(id = R.drawable.privacypolicy_button),
                 contentDescription = "PrivacyPolicy_Button",
                 modifier = Modifier
                     .fillMaxWidth(0.6f)
                     .padding(8.dp)
-                    .clickable { onPrivacyPolicyClick() }
+                    .clickable { onPrivacyClick() }
             )
         }
     }

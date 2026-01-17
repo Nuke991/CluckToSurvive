@@ -19,7 +19,6 @@ import com.mk.clucktosurvive.ui.theme.CluckToSurviveTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-            // enableEdgeToEdge()
         setContent {
             CluckToSurviveTheme {
                 Surface(
