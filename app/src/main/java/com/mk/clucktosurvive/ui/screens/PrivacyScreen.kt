@@ -14,6 +14,8 @@ import com.mk.clucktosurvive.R
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.text.TextStyle
 @Composable
 fun PrivacyScreen(onBack:() -> Unit)
 {
@@ -34,8 +36,10 @@ fun PrivacyScreen(onBack:() -> Unit)
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Fit
        )
-      }
 
+      }
+        Text("PRIVACY POLICY", style = TextStyle(color = androidx.compose.ui.graphics.Color.White,fontSize = 25.sp,
+            fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold), modifier = Modifier.align(Alignment.TopStart).padding(top = 124.dp, start = 100.dp))
 
     }
 }
