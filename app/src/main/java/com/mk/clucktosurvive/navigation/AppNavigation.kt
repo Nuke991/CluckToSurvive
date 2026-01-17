@@ -3,6 +3,7 @@ package com.mk.clucktosurvive.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.mk.clucktosurvive.ui.screens.*
 
@@ -53,13 +54,15 @@ fun AppNavigation() {
 
 
         composable("records") {
-            RecordsScreen(onBack = { navController.popBackStack() })
+            RecordsScreen(onBack = {navController.navigate("menu")})
 
         }
 
 
         composable("privacy") {
-            PrivacyScreen(onBack = { navController.popBackStack() })
+            PrivacyScreen(
+                onBack = {navController.navigate("menu")}
+            )
         }
     }
 }

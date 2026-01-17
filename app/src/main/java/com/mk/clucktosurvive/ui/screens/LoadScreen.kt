@@ -29,5 +29,6 @@ fun LoadScreen(onTimeout: () -> Unit) {
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
         )
+
     }
 }
