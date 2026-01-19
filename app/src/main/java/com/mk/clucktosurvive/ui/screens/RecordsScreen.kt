@@ -15,6 +15,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.mk.clucktosurvive.R
+import com.mk.clucktosurvive.ui.components.ReturnButton
 
 @Composable
 fun RecordsScreen(onBack:()-> Unit) {
@@ -26,16 +27,10 @@ fun RecordsScreen(onBack:()-> Unit) {
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
         )
-        Box(
-            modifier = Modifier.align(Alignment.TopStart).padding(top = 65.dp, start = 30.dp).size(55.dp).clickable { onBack() }) {
-
-            Image(
-                painter = painterResource(id = R.drawable.returnbutton),
-                contentDescription = null,
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Fit
-            )
-
-        }
+        ReturnButton(
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .padding(top = 65.dp, start = 30.dp),
+            onBack = onBack)
     }
 }
