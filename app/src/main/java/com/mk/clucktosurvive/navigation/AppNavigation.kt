@@ -3,9 +3,10 @@ package com.mk.clucktosurvive.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import com.mk.clucktosurvive.ui.components.ReturnButton
 import com.mk.clucktosurvive.ui.screens.*
+import com.mk.clucktosurvive.ui.screens.GameOverScreen
 
 
 @Composable
@@ -22,14 +23,14 @@ fun AppNavigation() {
 
         composable("menu") {
             MenuScreen(
-                onStartClick = { navController.navigate("game") },
+                onStartClick = { navController.navigate("com/mk/clucktosurvive/ui/screens/game") },
                 onRecordsClick = { navController.navigate("records") },
                 onPrivacyClick = { navController.navigate("privacy") }
             )
         }
 
 
-        composable("game") {
+        composable("com/mk/clucktosurvive/ui/screens/game") {
             GameScreen(
                 onPauseClick = { navController.navigate("pause") },
                 onGameOver = { navController.navigate("gameover") }
@@ -47,7 +48,13 @@ fun AppNavigation() {
 
         composable("gameover") {
             GameOverScreen(
-                onRetry = { navController.navigate("game") { popUpTo("game") { inclusive = true } } },
+                onRetry = {
+                    navController.navigate("com/mk/clucktosurvive/ui/screens/game") {
+                        popUpTo(
+                            "com/mk/clucktosurvive/ui/screens/game"
+                        ) { inclusive = true }
+                    }
+                },
                 onBack = { navController.navigate("menu") { popUpTo("menu") { inclusive = true } } }
             )
         }
@@ -64,5 +71,7 @@ fun AppNavigation() {
                 onBack = {navController.navigate("menu")}
             )
         }
+
+
     }
 }

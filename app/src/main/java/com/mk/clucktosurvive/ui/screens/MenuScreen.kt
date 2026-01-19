@@ -30,7 +30,6 @@ fun MenuScreen(
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
         )
-
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
@@ -63,6 +62,7 @@ fun MenuScreen(
                     .padding(8.dp)
                     .clickable { onPrivacyClick() }
             )
+
         }
     }
 }

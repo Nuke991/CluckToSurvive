@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.TextStyle
+import com.mk.clucktosurvive.ui.components.ReturnButton
+
 @Composable
 fun PrivacyScreen(onBack:() -> Unit)
 {
@@ -27,17 +29,14 @@ fun PrivacyScreen(onBack:() -> Unit)
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
         )
-     Box(
-         modifier = Modifier.align(Alignment.TopStart).padding(top = 65.dp, start = 30.dp).size(55.dp).clickable { onBack() }) {
+        ReturnButton(
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .padding(top = 65.dp, start = 30.dp),
+                onBack = onBack)
 
-        Image(
-            painter = painterResource(id = R.drawable.returnbutton),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Fit
-       )
 
-      }
+
         Text("PRIVACY POLICY", style = TextStyle(color = androidx.compose.ui.graphics.Color.White,fontSize = 25.sp,
             fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold), modifier = Modifier.align(Alignment.TopStart).padding(top = 124.dp, start = 100.dp))
 
