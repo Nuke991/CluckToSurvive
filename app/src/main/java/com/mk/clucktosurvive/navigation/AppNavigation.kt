@@ -48,7 +48,7 @@ fun AppNavigation() {
         composable("gameover") {
             GameOverScreen(
                 onRetry = { navController.navigate("game") { popUpTo("game") { inclusive = true } } },
-                onMenu = { navController.navigate("menu") { popUpTo("menu") { inclusive = true } } }
+                onBack = { navController.navigate("menu") { popUpTo("menu") { inclusive = true } } }
             )
         }
 
