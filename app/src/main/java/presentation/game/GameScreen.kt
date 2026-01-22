@@ -53,7 +53,7 @@ fun GameScreen(
                 painter = painterResource(id = R.drawable.platform_big),
                 contentDescription = null,
                 modifier = Modifier
-                    .offset(x = platform.coordinateX.dp, y = platform.coordinateY.dp)
+                    .offset(x = platform.x.dp, y = platform.y.dp)
                     .size(platform.width.dp, platform.height.dp),
                 contentScale = ContentScale.FillBounds
             )
@@ -65,8 +65,8 @@ fun GameScreen(
             null,
             modifier = Modifier
                 .offset(
-                    x = state.characterX.dp,
-                    y = state.characterY.dp
+                    x = state.character.x.dp,
+                    y = state.character.y.dp
                 )
                 .size(50.dp, 50.dp),
             contentScale = ContentScale.FillBounds
