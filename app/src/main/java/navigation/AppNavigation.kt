@@ -1,12 +1,16 @@
-package com.mk.clucktosurvive.navigation
+package navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.mk.clucktosurvive.ui.components.ReturnButton
-import com.mk.clucktosurvive.ui.screens.*
-import com.mk.clucktosurvive.ui.screens.GameOverScreen
+import presentation.game.GameOverScreen
+import presentation.game.GameScreen
+import presentation.game.PauseScreen
+import presentation.loading.LoadScreen
+import presentation.menu.MenuScreen
+import presentation.privacypolicy.PrivacyScreen
+import presentation.records.RecordsScreen
 
 
 @Composable
@@ -23,14 +27,14 @@ fun AppNavigation() {
 
         composable("menu") {
             MenuScreen(
-                onStartClick = { navController.navigate("com/mk/clucktosurvive/ui/screens/game") },
+                onStartClick = { navController.navigate("presentation/game") },
                 onRecordsClick = { navController.navigate("records") },
                 onPrivacyClick = { navController.navigate("privacy") }
             )
         }
 
 
-        composable("com/mk/clucktosurvive/ui/screens/game") {
+        composable("presentation/game") {
             GameScreen(
                 onPauseClick = { navController.navigate("pause") },
                 onGameOver = { navController.navigate("gameover") }
@@ -49,9 +53,9 @@ fun AppNavigation() {
         composable("gameover") {
             GameOverScreen(
                 onRetry = {
-                    navController.navigate("com/mk/clucktosurvive/ui/screens/game") {
+                    navController.navigate("presentation/game") {
                         popUpTo(
-                            "com/mk/clucktosurvive/ui/screens/game"
+                            "presentation/game"
                         ) { inclusive = true }
                     }
                 },
@@ -61,14 +65,14 @@ fun AppNavigation() {
 
 
         composable("records") {
-            RecordsScreen(onBack = {navController.navigate("menu")})
+            RecordsScreen(onBack = { navController.navigate("menu") })
 
         }
 
 
         composable("privacy") {
             PrivacyScreen(
-                onBack = {navController.navigate("menu")}
+                onBack = { navController.navigate("menu") }
             )
         }
 

@@ -1,4 +1,4 @@
-package com.mk.clucktosurvive.ui.components
+package presentation.game
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -15,17 +15,25 @@ import androidx.compose.ui.unit.dp
 import com.mk.clucktosurvive.R
 
 @Composable
-fun PauseButton(onPauseClick: () -> Unit, modifier: Modifier = Modifier) {
-    Box(
-        modifier = modifier
-            .size(55.dp)
-            .clickable { onPauseClick() }
-    ) {
+fun GameOverScreen(onRetry: () -> Unit, onBack: () -> Unit) {
+    Box(modifier = Modifier.fillMaxSize())
+    {
         Image(
-            painter = painterResource(id = R.drawable.pausebutton),
+            painter = painterResource(id = R.drawable.gameoverscreen),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Fit
+            contentScale = ContentScale.Crop
         )
+        Box(
+            modifier = Modifier.align(Alignment.TopStart).padding(top = 65.dp, start = 30.dp).size(55.dp).clickable { onBack() }) {
+
+            Image(
+                painter = painterResource(id = R.drawable.returnbutton),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Fit
+            )
+
+        }
     }
 }
