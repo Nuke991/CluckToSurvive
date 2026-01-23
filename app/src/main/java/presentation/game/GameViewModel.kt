@@ -14,8 +14,9 @@ import kotlinx.coroutines.launch
 data class Character(
     val x: Float = 200f,
     val y: Float = 60f,
-    val width: Float = 50f,
-    val height: Float = 50f
+    val width: Float = 42f,
+    val height: Float = 70f,
+    val merge: Float = 20f
 
 )
 
@@ -34,9 +35,9 @@ data class GameUiState(
     val isPaused: Boolean = false,
     val isGameOver: Boolean = false,
     val platforms: List<Platform> = listOf(
-        Platform(40f, 300f, 120f, 30f),
-        Platform(150f, 500f, 120f, 30f),
-        Platform(120f, 700f, 120f, 30f)
+        Platform(40f, 300f, 83f, 30f),
+        Platform(150f, 500f, 83f, 30f),
+        Platform(120f, 700f, 83f, 30f)
     )
 )
 
@@ -79,7 +80,7 @@ class GameViewModel : ViewModel() {
 
 
                 if (
-                    newY + state.character.height >= p.y && f1 or f2
+                    newY + state.character.height - state.character.merge  >= p.y && f1 or f2
                 ) {
                     collided = true
                     finalVelY = jumpImpulse

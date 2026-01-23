@@ -68,7 +68,7 @@ fun GameScreen(
                     x = state.character.x.dp,
                     y = state.character.y.dp
                 )
-                .size(50.dp, 50.dp),
+                .size(42.dp, 70.dp),
             contentScale = ContentScale.FillBounds
 
 
