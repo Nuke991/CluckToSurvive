@@ -73,14 +73,12 @@ class GameViewModel : ViewModel() {
 
         if (newVelY > 0) {
             state.platforms.forEach { p ->
-                val f1 =
-                    state.character.x >= p.x && state.character.x <= p.x + p.width
-                val f2 =
-                    state.character.x + state.character.width >= p.x && state.character.x + state.character.width <= p.x + p.width
+
+                val isxcoordinatecorrect = state.character.x <= p.x + p.width && state.character.x + state.character.width >= p.x
 
 
                 if (
-                    newY + state.character.height - state.character.merge  >= p.y && f1 or f2
+                    newY + state.character.height - state.character.merge  >= p.y && isxcoordinatecorrect
                 ) {
                     collided = true
                     finalVelY = jumpImpulse
