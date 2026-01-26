@@ -74,7 +74,7 @@ class GameViewModel : ViewModel() {
         if (newVelY > 0) {
             state.platforms.forEach { p ->
 
-                val isxcoordinatecorrect = state.character.x <= p.x + p.width && state.character.x + state.character.width >= p.x
+                val isxcoordinatecorrect = (state.character.x + state.character.width) in p.x..(p.x + p.width) || (p.x + p.width) in state.character.x..(state.character.x + state.character.width)
 
 
                 if (
