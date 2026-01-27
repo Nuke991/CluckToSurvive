@@ -2,6 +2,9 @@ package presentation.game
 
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
@@ -29,7 +32,7 @@ fun GameScreen(
     val state by viewModel.uiState.collectAsState()
 
 
-    Box(modifier = Modifier.fillMaxSize())
+    Box(modifier = Modifier.fillMaxSize().draggable( orientation = Orientation.Horizontal, state = rememberDraggableState {delta -> viewModel.onDrag(delta)}))
     {
         Image(
             painter = painterResource(id = R.drawable.gamescreen),
