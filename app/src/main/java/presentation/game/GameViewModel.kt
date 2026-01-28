@@ -18,6 +18,7 @@ data class Character(
     val height: Float = 70f,
     val merge: Float = 20f
 
+
 )
 
 data class Platform(
@@ -43,6 +44,7 @@ data class GameUiState(
 
 
 class GameViewModel : ViewModel() {
+    private var screenWidth: Float = 0f
     private val _uiState = MutableStateFlow(GameUiState())
     val uiState: StateFlow<GameUiState> = _uiState.asStateFlow()
     private var gameJob: Job? = null
@@ -71,6 +73,7 @@ class GameViewModel : ViewModel() {
 
 
 
+
         if (newVelY > 0) {
 
             state.platforms.forEach { p ->
@@ -90,6 +93,8 @@ class GameViewModel : ViewModel() {
         }
 
         val gameOver = newY > 2000f
+
+
         state.copy(
             character = Character(state.character.x, if (collided) state.character.y else newY),
             velocityY = finalVelY,
@@ -99,13 +104,21 @@ class GameViewModel : ViewModel() {
     }
     fun onDrag(deltaX: Float) {
         _uiState.update { state ->
-            val newX = (state.character.x + deltaX).coerceIn(0f, 1000f)
+            val newX = (state.character.x + deltaX).coerceIn(0f, screenWidth - state.character.width)
             state.copy(character = state.character.copy(x = newX))
         }
     }
     fun onPauseClick() = _uiState.update { it.copy(isPaused = !it.isPaused) }
+    
     fun onRestartClick() {
         _uiState.value = GameUiState(); startGame()
+
     }
+
+    fun updateScreenWidth(widthPx: Float, density: Float) {
+        screenWidth = widthPx/ density
+    }
+
+
 }
 

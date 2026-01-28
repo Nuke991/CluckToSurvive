@@ -16,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -30,9 +31,11 @@ fun GameScreen(
 ) {
 
     val state by viewModel.uiState.collectAsState()
+    val density = androidx.compose.ui.platform.LocalDensity.current.density
 
 
-    Box(modifier = Modifier.fillMaxSize().draggable( orientation = Orientation.Horizontal, state = rememberDraggableState {delta -> viewModel.onDrag(delta)}))
+    Box(modifier = Modifier.fillMaxSize().onGloballyPositioned {viewModel.updateScreenWidth(it.size.width.toFloat(), density)
+    }.draggable( orientation = Orientation.Horizontal, state = rememberDraggableState {delta -> viewModel.onDrag(delta)}))
     {
         Image(
             painter = painterResource(id = R.drawable.gamescreen),
