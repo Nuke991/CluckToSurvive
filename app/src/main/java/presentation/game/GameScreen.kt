@@ -34,7 +34,10 @@ fun GameScreen(
     val density = androidx.compose.ui.platform.LocalDensity.current.density
 
 
-    Box(modifier = Modifier.fillMaxSize().onGloballyPositioned {viewModel.updateScreenWidth(it.size.width.toFloat(), density)
+    Box(modifier = Modifier.fillMaxSize().onGloballyPositioned { coordinates ->
+        val widthPx = coordinates.size.width.toFloat()
+        val heightPx = coordinates.size.height.toFloat()
+        viewModel.updateScreenSize(widthPx, heightPx, density)
     }.draggable( orientation = Orientation.Horizontal, state = rememberDraggableState {delta -> viewModel.onDrag(delta)}))
     {
         Image(
