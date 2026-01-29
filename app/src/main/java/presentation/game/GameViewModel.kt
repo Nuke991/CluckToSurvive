@@ -44,9 +44,9 @@ data class GameUiState(
     val isPaused: Boolean = false,
     val isGameOver: Boolean = false,
     val platforms: List<Platform> = listOf(
-        Platform(170f, 750f, 83f, 30f),
-        Platform(45f, 650f, 83f, 30f),
-        Platform(200f, 150f, 83f, 30f)
+        Platform(170f, 500f, 83f, 30f),
+        Platform(45f, 400f, 83f, 30f),
+        Platform(200f, 550f, 83f, 30f)
     )
 )
 
@@ -60,7 +60,7 @@ class GameViewModel : ViewModel() {
     private val gravity = 0.8f
     private val jumpImpulse = -20f
 
-    private val topborderY = 450f
+    private val topborderY = 200f
 
     private val downborderY = 800f
 
@@ -83,7 +83,7 @@ class GameViewModel : ViewModel() {
         val newY = state.character.y + newVelocityY
         var finalVelocityY = newVelocityY
         var collided = false
-        val platformShift = if (newY <= topborderY && newVelocityY < 0) -newVelocityY else 0f
+        val platformShift = if (newY <= topborderY && newVelocityY < 0)  topborderY - newY  else 0f
 
 
 
