@@ -30,7 +30,7 @@ enum class GameScreen(val value: Int) {
 
 data class Platform(
     val x: Float,
-    val y: Float,
+    var y: Float,
     val width: Float,
     val height: Float
 )
@@ -46,14 +46,15 @@ data class GameUiState(
     val platforms: List<Platform> = listOf(
         Platform(170f, 500f, 83f, 30f),
         Platform(45f, 400f, 83f, 30f),
-        Platform(200f, 550f, 83f, 30f)
+        Platform(150f, 600f, 83f, 30f),
+        Platform(100f, 300f, 83f, 30f)
     )
 )
 
 
 class GameViewModel : ViewModel() {
     private var screenWidth: Float = 0f
-    private var screenHeight: Float = 0f
+    private var screenHeight: Float = 2000f
     private val _uiState = MutableStateFlow(GameUiState())
     val uiState: StateFlow<GameUiState> = _uiState.asStateFlow()
     private var gameJob: Job? = null
@@ -83,13 +84,11 @@ class GameViewModel : ViewModel() {
         val newY = state.character.y + newVelocityY
         var finalVelocityY = newVelocityY
         var collided = false
-        val platformShift = if (newY <= topborderY && newVelocityY < 0)  topborderY - newY  else 0f
-
+        val platformShift = if (newY <= topborderY && newVelocityY < 0) topborderY - newY else 0f
 
 
         //val scrollThreshold = 400f
-       // val scrollOffset = if (newY < scrollThreshold) scrollThreshold - newY else 0f
-
+        // val scrollOffset = if (newY < scrollThreshold) scrollThreshold - newY else 0f
 
 
         if (newVelocityY > 0) {
@@ -106,6 +105,8 @@ class GameViewModel : ViewModel() {
                     collided = true
                     finalVelocityY = jumpImpulse
                 }
+
+
             }
         }
 
@@ -117,21 +118,35 @@ class GameViewModel : ViewModel() {
         } else GameScreen.FIXED
 
 
-
         val finalY =
-            if (gameScreenState == GameScreen.MOVEDOWN && newVelocityY < 0){ topborderY }
-            else {(if (collided) state.character.y else newY)}
+            if (gameScreenState == GameScreen.MOVEDOWN && newVelocityY < 0) {
+                topborderY
+            } else {
+                (if (collided) state.character.y else newY)
+            }
 
 
 
 
 
-            state.copy(
-            character = Character(state.character.x, if (newY <= topborderY && newVelocityY < 0) topborderY else if (collided) state.character.y else newY),
+        state.copy(
+            character = Character(
+                state.character.x,
+                if (newY <= topborderY && newVelocityY < 0) topborderY else if (collided) state.character.y else newY
+            ),
             velocityY = finalVelocityY,
             //score = state.score + scrollOffset.toInt(),
             isGameOver = finalY > 2000f,
-                platforms = state.platforms.map {it.copy(x = it.x, it.y + platformShift)}
+            platforms = state.platforms.map { p ->
+                val moveplatformY = p.y + platformShift
+                if (moveplatformY > screenHeight) {
+                    p.copy(y = 150f, x = (0..screenWidth.toInt()).random().toFloat())
+
+
+                } else
+                    p.copy(y = moveplatformY)
+
+            }
 
         )
     }
