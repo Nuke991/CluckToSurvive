@@ -12,8 +12,8 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 data class Character(
-    val x: Float = 200f,
-    val y: Float = 500f,
+    var x: Float = 0f,
+    var y: Float = 0f,
     val width: Float = 42f,
     val height: Float = 70f,
     val merge: Float = 20f
@@ -60,16 +60,37 @@ class GameViewModel : ViewModel() {
     private var gameJob: Job? = null
     private val gravity = 0.8f
     private val jumpImpulse = -20f
-
     private val topborderY = 200f
-
     private val downborderY = 800f
 
     init {
-        startGame()
+
+       // resetGame()
+       // startGame()
     }
 
-    private fun startGame() {
+    fun resetGame() {
+        val centerX = screenWidth /2;
+        val centerY = screenHeight * 0.3
+
+        _uiState.update{ it.copy(
+            character = Character(
+                centerX ,
+                centerY.toFloat()
+            ),
+            isGameOver = false,
+            platforms = listOf(
+
+
+                Platform(170f, 600f, 83f, 30f),
+                Platform(270f, 500f, 83f, 30f),
+                Platform(45f, 400f, 83f, 30f),
+                Platform(100f, 300f, 83f, 30f)))
+        }
+
+    }
+
+    fun startGame() {
         gameJob?.cancel()
         gameJob = viewModelScope.launch {
             while (isActive) {
@@ -129,6 +150,7 @@ class GameViewModel : ViewModel() {
 
 
 
+
         state.copy(
             character = Character(
                 state.character.x,
@@ -140,7 +162,7 @@ class GameViewModel : ViewModel() {
             platforms = state.platforms.map { p ->
                 val moveplatformY = p.y + platformShift
                 if (moveplatformY > screenHeight) {
-                    p.copy(y = 150f, x = (0..screenWidth.toInt()).random().toFloat())
+                    p.copy(y = 150f, x = (0..screenWidth.toInt()-p.width.toInt()).random().toFloat())
 
 
                 } else
@@ -161,10 +183,10 @@ class GameViewModel : ViewModel() {
 
     fun onPauseClick() = _uiState.update { it.copy(isPaused = !it.isPaused) }
 
-    fun onRestartClick() {
+    /*fun onRestartClick() {
         _uiState.value = GameUiState(); startGame()
 
-    }
+    }*/
 
     fun updateScreenSize(widthPx: Float, heightPx: Float, density: Float) {
         screenWidth = widthPx / density

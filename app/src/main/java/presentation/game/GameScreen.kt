@@ -38,6 +38,9 @@ fun GameScreen(
         val widthPx = coordinates.size.width.toFloat()
         val heightPx = coordinates.size.height.toFloat()
         viewModel.updateScreenSize(widthPx, heightPx, density)
+        viewModel.resetGame();
+        viewModel.startGame();
+
     }.draggable( orientation = Orientation.Horizontal, state = rememberDraggableState {delta -> viewModel.onDrag(delta)}))
     {
         Image(
