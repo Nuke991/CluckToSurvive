@@ -60,7 +60,7 @@ class GameViewModel : ViewModel() {
     private var gameJob: Job? = null
     private val gravity = 0.8f
     private val jumpImpulse = -20f
-    private val topborderY = 200f
+    private val topborderY = 400f
     private val downborderY = 800f
 
     init {
@@ -71,7 +71,7 @@ class GameViewModel : ViewModel() {
 
     fun resetGame() {
         val centerX = screenWidth /2;
-        val centerY = screenHeight * 0.3
+        val centerY = screenHeight * 0.2
 
         _uiState.update{ it.copy(
             character = Character(
