@@ -69,14 +69,21 @@ class GameViewModel : ViewModel() {
        // startGame()
     }
 
-    fun resetGame() {
-        val centerX = screenWidth /2;
-        val centerY = screenHeight * 0.2
+    fun resetGame(widthPx: Int, heightPx: Int, density: Float) {
+        val charWidthDp = widthPx / density
+        val charHeightDp = heightPx / density
+
+
+
+        val centerX = (screenWidth / 2) - (charWidthDp / 2)
+        val centerY = screenHeight * 0.2f
 
         _uiState.update{ it.copy(
             character = Character(
                 centerX ,
-                centerY.toFloat()
+                centerY.toFloat() ,
+                width = charWidthDp,
+                height = charHeightDp,
             ),
             isGameOver = false,
             platforms = listOf(
@@ -154,7 +161,9 @@ class GameViewModel : ViewModel() {
         state.copy(
             character = Character(
                 state.character.x,
-                if (newY <= topborderY && newVelocityY < 0) topborderY else if (collided) state.character.y else newY
+                if (newY <= topborderY && newVelocityY < 0) topborderY else if (collided) state.character.y else newY,
+                state.character.width,
+                state.character.height
             ),
             velocityY = finalVelocityY,
             //score = state.score + scrollOffset.toInt(),
