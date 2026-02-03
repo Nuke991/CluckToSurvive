@@ -28,6 +28,8 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 
@@ -40,26 +42,25 @@ fun GameScreen(
 
     val context = LocalContext.current
     val state by viewModel.uiState.collectAsState()
-    val density = androidx.compose.ui.platform.LocalDensity.current.density
+    var isScreenReady by remember { mutableStateOf(false) }
+
+        //val density = androidx.compose.ui.platform.LocalDensity.current.density
     val characterBitmap = remember {
         BitmapFactory.decodeResource(context.resources, R.drawable.character).asImageBitmap()
     }
-    val platformBigBitmap = remember {
-        BitmapFactory.decodeResource(context.resources, R.drawable.platform_big).asImageBitmap()
-    }
-
-
 
     Box(modifier = Modifier.fillMaxSize().onGloballyPositioned { coordinates ->
         val widthPx = coordinates.size.width.toFloat()
         val heightPx = coordinates.size.height.toFloat()
-        viewModel.updateScreenSize(widthPx, heightPx, density)
+        viewModel.updateScreenSize(widthPx, heightPx)
         viewModel.resetGame(
-            widthPx = characterBitmap.width,
-            heightPx = characterBitmap.height,
-            density = density
+            charWidthPx = characterBitmap.width,
+            charHeightPx = characterBitmap.height,
+            context
+
         );
-        viewModel.startGame();
+        isScreenReady = true
+
 
     }.draggable( orientation = Orientation.Horizontal, state = rememberDraggableState {delta -> viewModel.onDrag(delta)}))
     {
@@ -79,7 +80,7 @@ fun GameScreen(
         )
 
 
-        state.platforms.forEach { platform ->
+        /*state.platforms.forEach { platform ->
 
             Image(
                 painter = painterResource(id = R.drawable.platform_big),
@@ -92,14 +93,39 @@ fun GameScreen(
 
         }
 
+         */
+
         Canvas(modifier = Modifier.fillMaxSize()) {
-            val imageWidth = characterBitmap.width
-            val imageHeight = characterBitmap.height
+           /* val CharacterImageWidth = characterBitmap.width
+            val CharacterImageHeight = characterBitmap.height
+
+           // val PlatformBigWidth = platformBigBitmap.width
+            val PlatformBigHeight = platformBigBitmap.height
+
+
+            */
+
+
+            state.platforms.forEach { platform ->
+
+                drawImage(
+                    image = platform.platformBitmap,
+                    dstOffset = IntOffset(
+                        (platform.x).toInt(),
+                        (platform.y).toInt()
+                    ),
+                    dstSize = IntSize(
+                        platform.platformBitmap.width,
+                        platform.platformBitmap.height
+                    )
+                )
+            }
+
             drawImage(
                 image = characterBitmap,
                 dstOffset = IntOffset(
-                    (state.character.x * density).toInt(),
-                    (state.character.y * density).toInt()
+                    (state.character.x).toInt(),
+                    (state.character.y).toInt()
                 ),
                 dstSize = IntSize(
                     characterBitmap.width,
@@ -108,21 +134,17 @@ fun GameScreen(
             )
         }
 
-            /*Image(
-            painter = painterResource(id = R.drawable.character),
-            null,
-            modifier = Modifier
-                .offset(
-                    x = state.character.x.dp,
-                    y = state.character.y.dp
-                )
-                .size(42.dp, 70.dp),
-            contentScale = ContentScale.FillBounds
-
-
-        )*/
 
 
     }
+
+    if (isScreenReady) {
+        LaunchedEffect(Unit) {
+            viewModel.startGame()
+        }
+    }
 }
+
+
+
 
