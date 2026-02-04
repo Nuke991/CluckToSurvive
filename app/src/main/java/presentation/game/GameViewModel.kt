@@ -17,18 +17,18 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 data class Character(
-    var x: Float = 0f,
-    var y: Float = 0f,
-    val width: Float = 42f,
-    val height: Float = 70f,
-    val merge: Float = 20f
+    var xDp: Float = 0f,
+    var yDp: Float = 0f,
+    val widthDp: Float = 42f,
+    val heightDp: Float = 70f,
+    val mergeDp: Float = 20f
 
 
 )
 
 
 enum class PlatformType(val resourceId: Int) {
-    SMALL(R.drawable.platforn_small),
+    SMALL(R.drawable.platform_small),
     BIG(R.drawable.platform_big),
 
 }
@@ -65,15 +65,18 @@ data class GameUiState(
 
 
 class GameViewModel : ViewModel() {
-    private var screenWidth: Float = 0f
-    private var screenHeight: Float = 2000f
+    private var screenWidthDp: Float = 0f
+    private var screenHeightDp: Float = 2000f
     private val _uiState = MutableStateFlow(GameUiState())
     val uiState: StateFlow<GameUiState> = _uiState.asStateFlow()
     private var gameJob: Job? = null
     private val gravity = 0.8f
     private val jumpImpulse = -20f
-    private val topborderY = 400f
+    private val topborderYDp = 400f
     private val downborderY = 800f
+    private var isGameLaunched = false
+
+
 
     init {
 
@@ -81,18 +84,21 @@ class GameViewModel : ViewModel() {
        // startGame()
     }
 
-    fun resetGame(charWidthPx: Int, charHeightPx: Int, context: Context
+    fun resetGame(charWidthPx: Float, charHeightPx: Float, context: Context, density: Float
     ) {
+        if (isGameLaunched) return
+        val characterWidth = charWidthPx/density
+        val characterHeight= charHeightPx/density
 
-        val centerX = (screenWidth / 2) - (charWidthPx / 2)
-        val centerY = screenHeight * 0.2f
+        val centerX = (screenWidthDp / 2) - (characterWidth / 2)
+        val centerY = screenHeightDp * 0.2f
 
         _uiState.update{ it.copy(
             character = Character(
-                centerX ,
+                centerX,
                 centerY,
-                width = charWidthPx.toFloat(),
-                height = charHeightPx.toFloat(),
+                widthDp = characterWidth,
+                heightDp = characterHeight,
             ),
             isGameOver = false,
 
@@ -103,7 +109,7 @@ class GameViewModel : ViewModel() {
                 Platform(45f, 400f, BitmapFactory.decodeResource(context.resources, PlatformType.BIG.resourceId).asImageBitmap()),
                 Platform(100f, 300f, BitmapFactory.decodeResource(context.resources, PlatformType.SMALL.resourceId).asImageBitmap())))
         }
-
+        isGameLaunched = true
     }
 
     fun startGame() {
@@ -118,10 +124,10 @@ class GameViewModel : ViewModel() {
 
     private fun updatePhysics() = _uiState.update { state ->
         val newVelocityY = state.velocityY + gravity
-        val newY = state.character.y + newVelocityY
+        val newY = state.character.yDp + newVelocityY
         var finalVelocityY = newVelocityY
         var collided = false
-        val platformShift = if (newY <= topborderY && newVelocityY < 0) topborderY - newY else 0f
+        val platformShift = if (newY <= topborderYDp && newVelocityY < 0) topborderYDp - newY else 0f
 
 
         //val scrollThreshold = 400f
@@ -133,11 +139,11 @@ class GameViewModel : ViewModel() {
             state.platforms.forEach { p ->
 
                 val isxcoordinatecorrect: Boolean =
-                    (state.character.x + state.character.width) in p.x..(p.x + p.platformBitmap.width) || (p.x + p.platformBitmap.width) in state.character.x..(state.character.x + state.character.width)
+                    (state.character.xDp + state.character.widthDp) in p.x..(p.x + p.platformBitmap.width) || (p.x + p.platformBitmap.width) in state.character.xDp..(state.character.xDp + state.character.widthDp)
 
 
                 if (
-                    newY + state.character.height - state.character.merge >= p.y && state.character.y + state.character.height <= p.y + p.platformBitmap.height && isxcoordinatecorrect
+                    newY + state.character.heightDp - state.character.mergeDp >= p.y && state.character.yDp + state.character.heightDp <= p.y + p.platformBitmap.height && isxcoordinatecorrect
                 ) {
                     collided = true
                     finalVelocityY = jumpImpulse
@@ -148,7 +154,7 @@ class GameViewModel : ViewModel() {
         }
 
 
-        val gameScreenState = if (newY <= topborderY) {
+        val gameScreenState = if (newY <= topborderYDp) {
             GameScreen.MOVEDOWN
         } else if (newY >= downborderY) {
             GameScreen.MOVETOP
@@ -157,33 +163,38 @@ class GameViewModel : ViewModel() {
 
         val finalY =
             if (gameScreenState == GameScreen.MOVEDOWN && newVelocityY < 0) {
-                topborderY
+                topborderYDp
             } else {
-                (if (collided) state.character.y else newY)
+                (if (collided) state.character.yDp else newY)
             }
 
 
 
 
 
-        val newCharY = if (newY <= topborderY && newVelocityY < 0) topborderY else if (collided) state.character.y else newY;
+       // val newCharY = if (newY <= topborderYDp && newVelocityY < 0) topborderYDp else if (collided) state.character.yDp else newY;
+
+        val newCharY =  if (collided) state.character.yDp else newY;
+
 
         state.copy(
-             character =  state.character.copy( y= newCharY),
+             character =  state.character.copy( yDp= newCharY),
 
             velocityY = finalVelocityY,
             //score = state.score + scrollOffset.toInt(),
             isGameOver = finalY > 2000f,
-            platforms = state.platforms.map { p ->
+
+           /* platforms = state.platforms.map { p ->
                 val moveplatformY = p.y + platformShift
-                if (moveplatformY > screenHeight) {
+                if (moveplatformY > screenHeightDp) {
                     p.copy(
                         y = 150f,
-                        x = (0..screenWidth.toInt()-p.platformBitmap.width.toInt()).random().toFloat())
+                        x = (0..screenWidthDp.toInt()-p.platformBitmap.width.toInt()).random().toFloat())
                 } else
                     p.copy(y = moveplatformY)
 
             }
+*/
 
         )
     }
@@ -191,8 +202,8 @@ class GameViewModel : ViewModel() {
     fun onDrag(deltaX: Float) {
         _uiState.update { state ->
             val newX =
-                (state.character.x + deltaX).coerceIn(0f, screenWidth - state.character.width)
-            state.copy(character = state.character.copy(x = newX))
+                (state.character.xDp + deltaX).coerceIn(0f, screenWidthDp - state.character.widthDp)
+            state.copy(character = state.character.copy(xDp = newX))
         }
     }
 
@@ -203,9 +214,10 @@ class GameViewModel : ViewModel() {
 
     }*/
 
-    fun updateScreenSize(widthPx: Float, heightPx: Float) {
-        screenWidth = widthPx
-        screenHeight = heightPx
+    fun updateScreenSize(widthPx: Float, heightPx: Float, density: Float) {
+        screenWidthDp = widthPx / density
+        screenHeightDp = heightPx / density
+
     }
 
 

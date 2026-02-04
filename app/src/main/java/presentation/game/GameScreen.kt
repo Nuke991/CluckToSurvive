@@ -7,9 +7,7 @@ import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -44,22 +42,26 @@ fun GameScreen(
     val state by viewModel.uiState.collectAsState()
     var isScreenReady by remember { mutableStateOf(false) }
 
-        //val density = androidx.compose.ui.platform.LocalDensity.current.density
+    val density = androidx.compose.ui.platform.LocalDensity.current.density
     val characterBitmap = remember {
-        BitmapFactory.decodeResource(context.resources, R.drawable.character).asImageBitmap()
+        BitmapFactory.decodeResource(context.resources, R.drawable.character1).asImageBitmap()
     }
 
     Box(modifier = Modifier.fillMaxSize().onGloballyPositioned { coordinates ->
-        val widthPx = coordinates.size.width.toFloat()
-        val heightPx = coordinates.size.height.toFloat()
-        viewModel.updateScreenSize(widthPx, heightPx)
-        viewModel.resetGame(
-            charWidthPx = characterBitmap.width,
-            charHeightPx = characterBitmap.height,
-            context
+        if (!isScreenReady) {
+            val widthPx = coordinates.size.width.toFloat()
+            val heightPx = coordinates.size.height.toFloat()
+            viewModel.updateScreenSize(widthPx, heightPx, density)
+            viewModel.resetGame(
+                charWidthPx = characterBitmap.width.toFloat(),
+                charHeightPx = characterBitmap.height.toFloat(),
+                context,
+                density
 
-        );
-        isScreenReady = true
+            )
+
+            isScreenReady = true
+        }
 
 
     }.draggable( orientation = Orientation.Horizontal, state = rememberDraggableState {delta -> viewModel.onDrag(delta)}))
@@ -80,30 +82,9 @@ fun GameScreen(
         )
 
 
-        /*state.platforms.forEach { platform ->
-
-            Image(
-                painter = painterResource(id = R.drawable.platform_big),
-                contentDescription = null,
-                modifier = Modifier
-                    .offset(x = platform.x.dp, y = platform.y.dp)
-                    .size(platform.width.dp, platform.height.dp),
-                contentScale = ContentScale.FillBounds
-            )
-
-        }
-
-         */
 
         Canvas(modifier = Modifier.fillMaxSize()) {
-           /* val CharacterImageWidth = characterBitmap.width
-            val CharacterImageHeight = characterBitmap.height
 
-           // val PlatformBigWidth = platformBigBitmap.width
-            val PlatformBigHeight = platformBigBitmap.height
-
-
-            */
 
 
             state.platforms.forEach { platform ->
@@ -124,12 +105,12 @@ fun GameScreen(
             drawImage(
                 image = characterBitmap,
                 dstOffset = IntOffset(
-                    (state.character.x).toInt(),
-                    (state.character.y).toInt()
+                    (state.character.xDp * density).toInt(),
+                    (state.character.yDp * density).toInt()
                 ),
                 dstSize = IntSize(
-                    characterBitmap.width,
-                    characterBitmap.height
+                    (characterBitmap.width).toInt(),
+                    (characterBitmap.height).toInt()
                 )
             )
         }
