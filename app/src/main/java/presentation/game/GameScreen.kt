@@ -92,8 +92,8 @@ fun GameScreen(
                 drawImage(
                     image = platform.platformBitmap,
                     dstOffset = IntOffset(
-                        (platform.x).toInt(),
-                        (platform.y).toInt()
+                        (platform.xDp * density).toInt(),
+                        (platform.yDp * density).toInt()
                     ),
                     dstSize = IntSize(
                         platform.platformBitmap.width,
