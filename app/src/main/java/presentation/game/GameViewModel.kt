@@ -85,7 +85,7 @@ class GameViewModel : ViewModel() {
     private val topborderYDp = 400f
     private val downborderY = 800f
     private var isGameLaunched = false
-
+    private val maxStepSize: Float = 200f;
 
     init {
 
@@ -100,20 +100,20 @@ class GameViewModel : ViewModel() {
         val characterWidth = charWidthPx / density
         val characterHeight = charHeightPx / density
 
-        val centerX = (screenWidthDp / 2) - (characterWidth / 2)
-        val centerY = screenHeightDp * 0.2f
+        val screencenterdpX = screenWidthDp * 0.5f
+        val screencenterdpY = screenHeightDp * 0.5f
 
         val plList = mutableListOf<Platform>()
         var platformYdp: Float = 800f;
+        var isFirst: Boolean = true
 
-        val maxStepSize:Float = 200f;
 
         do {
 
             val platformType: PlatformType =  PlatformType.entries[(0..1).random()];
             val bitmap = BitmapFactory.decodeResource(context.resources, platformType.resourceId)
                 .asImageBitmap()
-            val platformXdp: Float = 170f;
+            val platformXdp: Float = if(isFirst) { screencenterdpX - (bitmap.width/density)/2} else {(0..screenWidthDp.toInt()-(bitmap.width/density).toInt()).random().toFloat()};
 
             val newPlatform =  Platform(
                 platformXdp,
@@ -124,7 +124,7 @@ class GameViewModel : ViewModel() {
             plList.add(newPlatform);
 
             platformYdp -= ((maxStepSize/2).toInt()..maxStepSize.toInt()).random().toFloat();
-
+            isFirst = false
         } while (platformYdp >= -2*maxStepSize)
 
 
@@ -132,8 +132,8 @@ class GameViewModel : ViewModel() {
         _uiState.update {
             it.copy(
                 character = Character(
-                    centerX,
-                    centerY,
+                    screencenterdpX -(characterWidth / 2),
+                    screencenterdpY,
                     widthDp = characterWidth,
                     heightDp = characterHeight,
                 ),
@@ -207,6 +207,16 @@ class GameViewModel : ViewModel() {
         //val newCharY = if (collided) state.character.yDp else newY;
 
 
+        var minY = screenHeightDp
+
+        state.platforms.forEach{ p ->
+            minY = if(p.yDp < minY){p.yDp} else {minY}
+
+
+
+        }
+
+
         state.copy(
             character = state.character.copy(yDp = newCharY),
 
@@ -214,11 +224,16 @@ class GameViewModel : ViewModel() {
             //score = state.score + scrollOffset.toInt(),
             isGameOver = finalY > 2000f,
 
+
+
              platforms = state.platforms.map { p ->
                  val moveplatformY = p.yDp + platformShift
                  if (moveplatformY > screenHeightDp) {
+
+                     val randomVal = (maxStepSize.toInt()/3..maxStepSize.toInt()).random();
+
                      p.copy(
-                         yDp = 150f,
+                         yDp = (minY - randomVal),
                          xDp = (0..screenWidthDp.toInt()-p.widthDp.toInt()).random().toFloat())
                  } else
                      p.copy(yDp = moveplatformY)

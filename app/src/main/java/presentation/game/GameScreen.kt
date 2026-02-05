@@ -74,12 +74,6 @@ fun GameScreen(
         )
 
 
-        PauseButton(
-            modifier = Modifier
-                .align(Alignment.TopStart)
-                .padding(top = 65.dp, start = 30.dp),
-            onPauseClick = onPauseClick
-        )
 
 
 
@@ -114,7 +108,12 @@ fun GameScreen(
                 )
             )
         }
-
+        PauseButton(
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .padding(top = 65.dp, start = 30.dp),
+            onPauseClick = onPauseClick
+        )
 
 
     }
