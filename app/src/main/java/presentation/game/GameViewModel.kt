@@ -44,7 +44,7 @@ enum class GameScreen(val value: Int) {
 
 data class Platform(
 
-    val xDp: Float,
+    var xDp: Float,
     var yDp: Float,
     //  val platformType: PlatformType,
     val platformBitmap: ImageBitmap,
@@ -110,26 +110,22 @@ class GameViewModel : ViewModel() {
 
         do {
 
-            val  platfotmType: PlatformType = PlatformType.BIG;
+            val platformType: PlatformType =  PlatformType.entries[(0..1).random()];
+            val bitmap = BitmapFactory.decodeResource(context.resources, platformType.resourceId)
+                .asImageBitmap()
             val platformXdp: Float = 170f;
 
             val newPlatform =  Platform(
                 platformXdp,
                 platformYdp,
-                BitmapFactory.decodeResource(context.resources, platfotmType.resourceId)
-                    .asImageBitmap(),
+                bitmap,
                 density
             )
             plList.add(newPlatform);
 
             platformYdp -= ((maxStepSize/2).toInt()..maxStepSize.toInt()).random().toFloat();
 
-        }while (platformYdp >= -maxStepSize)
-
-
-
-
-
+        } while (platformYdp >= -2*maxStepSize)
 
 
 
@@ -142,42 +138,7 @@ class GameViewModel : ViewModel() {
                     heightDp = characterHeight,
                 ),
                 isGameOver = false,
-
-
-                platforms = listOf(
-                    Platform(
-                        170f,
-                        600f,
-                        BitmapFactory.decodeResource(context.resources, PlatformType.BIG.resourceId)
-                            .asImageBitmap(),
-                        density
-                    ),
-                    Platform(
-                        270f,
-                        500f,
-                        BitmapFactory.decodeResource(
-                            context.resources,
-                            PlatformType.SMALL.resourceId
-                        ).asImageBitmap(),
-                        density
-                    ),
-                    Platform(
-                        45f,
-                        400f,
-                        BitmapFactory.decodeResource(context.resources, PlatformType.BIG.resourceId)
-                            .asImageBitmap(),
-                        density
-                    ),
-                    Platform(
-                        100f,
-                        300f,
-                        BitmapFactory.decodeResource(
-                            context.resources,
-                            PlatformType.SMALL.resourceId
-                        ).asImageBitmap(),
-                        density
-                    )
-                )
+                platforms = plList
             )
         }
         isGameLaunched = true
