@@ -104,7 +104,7 @@ class GameViewModel : ViewModel() {
         val screencenterdpY = screenHeightDp * 0.5f
 
         val plList = mutableListOf<Platform>()
-        var platformYdp: Float = 800f;
+        var platformYdp: Float = 600f;
         var isFirst: Boolean = true
 
 
