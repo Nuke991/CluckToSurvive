@@ -1,11 +1,13 @@
 package navigation
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import presentation.game.GameOverScreen
 import presentation.game.GameScreen
+import presentation.game.GameViewModel
 import presentation.game.PauseScreen
 import presentation.loading.LoadScreen
 import presentation.menu.MenuScreen
@@ -16,6 +18,7 @@ import presentation.records.RecordsScreen
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
+    val gameViewModel: GameViewModel = viewModel()
 
     NavHost(navController = navController, startDestination = "load") {
 
@@ -36,6 +39,7 @@ fun AppNavigation() {
 
         composable("presentation/game") {
             GameScreen(
+                gameViewModel,
                 onPauseClick = { navController.navigate("pause") },
                 onGameOver = { navController.navigate("gameover") }
             )
@@ -65,7 +69,11 @@ fun AppNavigation() {
 
 
         composable("records") {
-            RecordsScreen(onBack = { navController.navigate("menu") })
+            RecordsScreen(
+                gameViewModel,
+                onBack = { navController.navigate("menu") }
+
+            )
 
         }
 

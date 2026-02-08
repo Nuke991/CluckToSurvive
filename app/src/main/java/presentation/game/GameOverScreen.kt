@@ -16,6 +16,7 @@ import com.mk.clucktosurvive.R
 
 @Composable
 fun GameOverScreen(onRetry: () -> Unit, onBack: () -> Unit) {
+
     Box(modifier = Modifier.fillMaxSize())
     {
         Image(

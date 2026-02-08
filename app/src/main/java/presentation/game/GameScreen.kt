@@ -30,10 +30,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Text
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun GameScreen(
-    viewModel: GameViewModel = viewModel(),
+    viewModel: GameViewModel,
     onPauseClick: () -> Unit,
     onGameOver: () -> Unit
 ) {
@@ -73,13 +78,7 @@ fun GameScreen(
             contentScale = ContentScale.Crop
         )
 
-
-
-
-
         Canvas(modifier = Modifier.fillMaxSize()) {
-
-
 
             state.platforms.forEach { platform ->
 
@@ -114,6 +113,26 @@ fun GameScreen(
                 .padding(top = 65.dp, start = 30.dp),
             onPauseClick = onPauseClick
         )
+
+        Box(
+            modifier = Modifier
+                .padding(top = 65.dp, end = 30.dp)
+                .align(Alignment.TopEnd),
+            contentAlignment = Alignment.Center
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.records_screen),
+                contentDescription = null,
+                modifier = Modifier.size(width = 119.dp, height = 55.dp)
+            )
+            Text(
+                text = "${state.score}M",
+                color = Color.White,
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp
+            )
+
+        }
 
 
     }

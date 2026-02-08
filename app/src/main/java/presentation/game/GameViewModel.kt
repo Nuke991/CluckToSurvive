@@ -28,6 +28,8 @@ data class Character(
 )
 
 
+
+
 enum class PlatformType(val resourceId: Int) {
     SMALL(R.drawable.platform_small),
     BIG(R.drawable.platform_big),
@@ -42,6 +44,11 @@ enum class GameScreen(val value: Int) {
 
 }
 
+data class Record(
+    var date: String,
+    val score: Float
+
+)
 data class Platform(
 
     var xDp: Float,
@@ -68,8 +75,8 @@ data class GameUiState(
     val score: Int = 0,
     val isPaused: Boolean = false,
     val isGameOver: Boolean = false,
-    val platforms: List<Platform> = listOf()
-
+    val platforms: List<Platform> = listOf(),
+    val records: List<Record> = listOf()
 
 )
 
@@ -87,11 +94,6 @@ class GameViewModel : ViewModel() {
     private var isGameLaunched = false
     private val maxStepSize: Float = 200f;
 
-    init {
-
-        // resetGame()
-        // startGame()
-    }
 
     fun resetGame(
         charWidthPx: Float, charHeightPx: Float, context: Context, density: Float
@@ -104,6 +106,11 @@ class GameViewModel : ViewModel() {
         val screencenterdpY = screenHeightDp * 0.5f
 
         val plList = mutableListOf<Platform>()
+        val recordslist = listOf(
+            Record("20.10", 1000f),
+            Record("25.10", 1100f),
+            Record("26.10", 1200f)
+        )
         var platformYdp: Float = 600f;
         var isFirst: Boolean = true
 
@@ -138,7 +145,8 @@ class GameViewModel : ViewModel() {
                     heightDp = characterHeight,
                 ),
                 isGameOver = false,
-                platforms = plList
+                platforms = plList,
+                records = recordslist
             )
         }
         isGameLaunched = true
@@ -163,8 +171,8 @@ class GameViewModel : ViewModel() {
             if (newY <= topborderYDp && newVelocityY < 0) topborderYDp - newY else 0f
 
 
-        //val scrollThreshold = 400f
-        // val scrollOffset = if (newY < scrollThreshold) scrollThreshold - newY else 0f
+        val scrollThreshold: Float = 400f
+         val scrollOffset = if (newY < scrollThreshold) scrollThreshold - newY else 0f
 
 
         if (newVelocityY > 0) {
@@ -221,7 +229,7 @@ class GameViewModel : ViewModel() {
             character = state.character.copy(yDp = newCharY),
 
             velocityY = finalVelocityY,
-            //score = state.score + scrollOffset.toInt(),
+            score = state.score + scrollOffset.toInt(),
             isGameOver = finalY > 2000f,
 
 
@@ -238,7 +246,7 @@ class GameViewModel : ViewModel() {
                  } else
                      p.copy(yDp = moveplatformY)
 
-             }
+             },
 
 
         )
