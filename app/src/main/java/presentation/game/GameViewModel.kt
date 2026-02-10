@@ -44,11 +44,7 @@ enum class GameScreen(val value: Int) {
 
 }
 
-data class Record(
-    var date: String,
-    val score: Float
 
-)
 data class Platform(
 
     var xDp: Float,
@@ -106,11 +102,7 @@ class GameViewModel : ViewModel() {
         val screencenterdpY = screenHeightDp * 0.5f
 
         val plList = mutableListOf<Platform>()
-        val recordslist = listOf(
-            Record("20.10", 1000f),
-            Record("25.10", 1100f),
-            Record("26.10", 1200f)
-        )
+
         var platformYdp: Float = 600f;
         var isFirst: Boolean = true
 
@@ -146,7 +138,7 @@ class GameViewModel : ViewModel() {
                 ),
                 isGameOver = false,
                 platforms = plList,
-                records = recordslist
+
             )
         }
         isGameLaunched = true

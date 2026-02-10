@@ -13,12 +13,13 @@ import presentation.loading.LoadScreen
 import presentation.menu.MenuScreen
 import presentation.privacypolicy.PrivacyScreen
 import presentation.records.RecordsScreen
-
+import presentation.records.RecordsScreenViewModel
 
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
     val gameViewModel: GameViewModel = viewModel()
+    val recordsScreenViewModel: RecordsScreenViewModel = viewModel()
 
     NavHost(navController = navController, startDestination = "load") {
 
@@ -70,7 +71,7 @@ fun AppNavigation() {
 
         composable("records") {
             RecordsScreen(
-                gameViewModel,
+                recordsScreenViewModel,
                 onBack = { navController.navigate("menu") }
 
             )

@@ -29,10 +29,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import presentation.game.GameViewModel
+
 
 @Composable
-fun RecordItem(record: presentation.game.Record) {
+fun RecordItem(record: presentation.records.Record) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -72,9 +72,9 @@ fun RecordItem(record: presentation.game.Record) {
 
 
 @Composable
-fun RecordsScreen(viewModel: GameViewModel, modifier: Modifier = Modifier, onBack: () -> Unit)
+fun RecordsScreen(viewModel: RecordsScreenViewModel, modifier: Modifier = Modifier, onBack: () -> Unit)
 {
-    val state by viewModel.uiState.collectAsState()
+   val state by viewModel.uiState.collectAsState()
     Box(modifier = Modifier.fillMaxSize())
     {
         Image(
