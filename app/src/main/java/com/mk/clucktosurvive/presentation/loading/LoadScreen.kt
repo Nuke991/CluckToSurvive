@@ -1,0 +1,31 @@
+package com.mk.clucktosurvive.presentation.loading
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import kotlinx.coroutines.delay
+import androidx.compose.foundation.Image
+import androidx.compose.ui.layout.ContentScale
+import com.mk.clucktosurvive.R
+
+@Composable
+fun LoadScreen(onTimeout: () -> Unit) {
+
+    LaunchedEffect(Unit) {
+        delay(2000)
+        onTimeout()
+    }
+
+    Box(modifier = Modifier.fillMaxSize())
+    {
+        Image(
+            painter = painterResource(id = R.drawable.bg_load),
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop
+        )
+
+    }
+}

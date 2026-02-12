@@ -7,8 +7,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import navigation.AppNavigation
-import ui.theme.CluckToSurviveTheme
+import com.mk.clucktosurvive.navigation.AppNavigation
+import com.mk.clucktosurvive.theme.CluckToSurviveTheme
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
