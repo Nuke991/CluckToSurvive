@@ -5,6 +5,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import data.repository.RecordRepository
+import org.koin.androidx.compose.koinViewModel
 import presentation.game.GameOverScreen
 import presentation.game.GameScreen
 import presentation.game.GameViewModel
@@ -17,9 +19,11 @@ import presentation.records.RecordsScreenViewModel
 
 @Composable
 fun AppNavigation() {
+
     val navController = rememberNavController()
-    val gameViewModel: GameViewModel = viewModel()
-    val recordsScreenViewModel: RecordsScreenViewModel = viewModel()
+    val gameViewModel: GameViewModel = koinViewModel()
+    val recordsScreenViewModel: RecordsScreenViewModel = koinViewModel()
+
 
     NavHost(navController = navController, startDestination = "load") {
 

@@ -1,4 +1,4 @@
-package viewmodel
+package com.mk.clucktosurvive
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -25,4 +25,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-

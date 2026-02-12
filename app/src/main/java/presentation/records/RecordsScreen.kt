@@ -75,6 +75,8 @@ fun RecordItem(record: presentation.records.Record) {
 fun RecordsScreen(viewModel: RecordsScreenViewModel, modifier: Modifier = Modifier, onBack: () -> Unit)
 {
    val state by viewModel.uiState.collectAsState()
+
+
     Box(modifier = Modifier.fillMaxSize())
     {
         Image(

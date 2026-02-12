@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun GameScreen(
     viewModel: GameViewModel,
+
     onPauseClick: () -> Unit,
     onGameOver: () -> Unit
 ) {
@@ -46,6 +47,16 @@ fun GameScreen(
     val context = LocalContext.current
     val state by viewModel.uiState.collectAsState()
     var isScreenReady by remember { mutableStateOf(false) }
+
+
+    // если игра окончена → навигация
+    if (state.isGameOver) {
+
+
+        onGameOver()
+    }
+
+
 
     val density = androidx.compose.ui.platform.LocalDensity.current.density
     val characterBitmap = remember {

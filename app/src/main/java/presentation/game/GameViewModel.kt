@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mk.clucktosurvive.R
+import data.repository.RecordRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,8 +24,6 @@ data class Character(
     val widthDp: Float = 42f,
     val heightDp: Float = 70f,
     val mergeDp: Float = 20f
-
-
 )
 
 
@@ -41,7 +40,6 @@ enum class GameScreen(val value: Int) {
     MOVETOP(1),
     MOVEDOWN(-1),
     FIXED(0);
-
 }
 
 
@@ -77,7 +75,7 @@ data class GameUiState(
 )
 
 
-class GameViewModel : ViewModel() {
+class GameViewModel(var  repository: RecordRepository) : ViewModel() {
     private var screenWidthDp: Float = 0f
     private var screenHeightDp: Float = 2000f
     private val _uiState = MutableStateFlow(GameUiState())
