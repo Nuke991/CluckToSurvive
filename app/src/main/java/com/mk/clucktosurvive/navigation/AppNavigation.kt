@@ -22,8 +22,8 @@ import org.koin.androidx.compose.koinViewModel
 fun AppNavigation() {
 
     val navController = rememberNavController()
-    val gameViewModel: GameViewModel = koinViewModel()
-    val recordsScreenViewModel: RecordsScreenViewModel = koinViewModel()
+
+
 
 
     NavHost(navController = navController, startDestination = "load") {
@@ -45,7 +45,6 @@ fun AppNavigation() {
 
         composable("presentation/game") {
             GameScreen(
-                gameViewModel,
                 onPauseClick = { navController.navigate("pause") },
                 onGameOver = { navController.navigate("gameover") }
             )
@@ -76,7 +75,7 @@ fun AppNavigation() {
 
         composable("records") {
             RecordsScreen(
-                recordsScreenViewModel,
+
                 onBack = { navController.navigate("menu") }
 
             )

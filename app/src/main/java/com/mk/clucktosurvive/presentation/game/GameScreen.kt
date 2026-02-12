@@ -34,11 +34,11 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun GameScreen(
-    viewModel: GameViewModel,
-
+    viewModel: GameViewModel = koinViewModel(),
     onPauseClick: () -> Unit,
     onGameOver: () -> Unit
 ) {
@@ -50,10 +50,10 @@ fun GameScreen(
 
     // если игра окончена → навигация
     if (state.isGameOver) {
-
-
         onGameOver()
+        state.isGameOver = false;
     }
+
 
 
 

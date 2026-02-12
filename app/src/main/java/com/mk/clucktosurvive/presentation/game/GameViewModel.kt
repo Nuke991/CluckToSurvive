@@ -2,7 +2,6 @@ package com.mk.clucktosurvive.presentation.game
 
 import android.content.Context
 import android.graphics.BitmapFactory
-import androidx.compose.remote.creation.random
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.lifecycle.ViewModel
@@ -17,6 +16,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import com.mk.clucktosurvive.domain.model.ScoreRecord
 
 data class Character(
     var xDp: Float = 0f,
@@ -66,11 +66,12 @@ data class GameUiState(
     val gameScreen: GameScreen = GameScreen.FIXED,
     val character: Character = Character(),
     val velocityY: Float = 0f,
-    val score: Int = 0,
+    val score: Float = 0f,
     val isPaused: Boolean = false,
-    val isGameOver: Boolean = false,
+    var isGameOver: Boolean = false,
     val platforms: List<Platform> = listOf(),
-    val records: List<Record> = listOf()
+    val records: List<Record> = listOf(),
+    val data: String = "12.10.26"
 
 )
 
@@ -85,14 +86,14 @@ class GameViewModel(var  repository: RecordRepository) : ViewModel() {
     private val jumpImpulse = -20f
     private val topborderYDp = 400f
     private val downborderY = 800f
-    private var isGameLaunched = false
+    //private var isGameLaunched = false
     private val maxStepSize: Float = 200f;
 
 
     fun resetGame(
         charWidthPx: Float, charHeightPx: Float, context: Context, density: Float
     ) {
-        if (isGameLaunched) return
+        //if (isGameLaunched) return
         val characterWidth = charWidthPx / density
         val characterHeight = charHeightPx / density
 
@@ -133,13 +134,15 @@ class GameViewModel(var  repository: RecordRepository) : ViewModel() {
                     screencenterdpY,
                     widthDp = characterWidth,
                     heightDp = characterHeight,
+
                 ),
+                score = 0f,
                 isGameOver = false,
                 platforms = plList,
 
             )
         }
-        isGameLaunched = true
+        //isGameLaunched = true
     }
 
     fun startGame() {
@@ -211,34 +214,42 @@ class GameViewModel(var  repository: RecordRepository) : ViewModel() {
             minY = if(p.yDp < minY){p.yDp} else {minY}
 
 
+        }
+
+
+        val newPlatforms = state.platforms.map { p ->
+            val moveplatformY = p.yDp + platformShift
+            if (moveplatformY > screenHeightDp) {
+
+                val randomVal = (maxStepSize.toInt()/3..maxStepSize.toInt()).random();
+
+                p.copy(
+                    yDp = (minY - randomVal),
+                    xDp = (0..screenWidthDp.toInt()-p.widthDp.toInt()).random().toFloat())
+            } else
+                p.copy(yDp = moveplatformY)
 
         }
 
 
+        var isGameOver = false
+
+
+        if (finalY > 2000f){
+            isGameOver = true;
+
+            repository.addRecord(ScoreRecord(state.data, state.score))
+            gameJob?.cancel()
+        }
+
+
+
         state.copy(
             character = state.character.copy(yDp = newCharY),
-
             velocityY = finalVelocityY,
             score = state.score + scrollOffset.toInt(),
-            isGameOver = finalY > 2000f,
-
-
-
-             platforms = state.platforms.map { p ->
-                 val moveplatformY = p.yDp + platformShift
-                 if (moveplatformY > screenHeightDp) {
-
-                     val randomVal = (maxStepSize.toInt()/3..maxStepSize.toInt()).random();
-
-                     p.copy(
-                         yDp = (minY - randomVal),
-                         xDp = (0..screenWidthDp.toInt()-p.widthDp.toInt()).random().toFloat())
-                 } else
-                     p.copy(yDp = moveplatformY)
-
-             },
-
-
+            isGameOver = isGameOver,
+            platforms = newPlatforms,
         )
     }
 

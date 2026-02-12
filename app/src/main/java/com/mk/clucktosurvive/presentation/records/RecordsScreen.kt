@@ -28,11 +28,13 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.mk.clucktosurvive.domain.model.ScoreRecord
+import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
-fun RecordItem(record: Record) {
+fun RecordItem(record: ScoreRecord) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -72,9 +74,14 @@ fun RecordItem(record: Record) {
 
 
 @Composable
-fun RecordsScreen(viewModel: RecordsScreenViewModel, modifier: Modifier = Modifier, onBack: () -> Unit)
+fun RecordsScreen(
+    recordsScreenViewModel: RecordsScreenViewModel = koinViewModel(),
+    modifier: Modifier = Modifier,
+    onBack: () -> Unit)
 {
-   val state by viewModel.uiState.collectAsState()
+
+    val state by recordsScreenViewModel.uiState.collectAsStateWithLifecycle()
+  // val state by viewModel.uiState.collectAsState()
 
 
     Box(modifier = Modifier.fillMaxSize())
