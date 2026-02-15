@@ -66,7 +66,7 @@ data class GameUiState(
     val gameScreen: GameScreen = GameScreen.FIXED,
     val character: Character = Character(),
     val velocityY: Float = 0f,
-    val score: Float = 0f,
+    val score: Int = 0,
     val isPaused: Boolean = false,
     var isGameOver: Boolean = false,
     val platforms: List<Platform> = listOf(),
@@ -136,7 +136,7 @@ class GameViewModel(var  repository: RecordRepository) : ViewModel() {
                     heightDp = characterHeight,
 
                 ),
-                score = 0f,
+                score = 0,
                 isGameOver = false,
                 platforms = plList,
 
@@ -172,12 +172,12 @@ class GameViewModel(var  repository: RecordRepository) : ViewModel() {
 
             state.platforms.forEach { p ->
 
-                val isxcoordinatecorrect: Boolean =
+                val isXCoordinateCorrect: Boolean =
                     (state.character.xDp + state.character.widthDp) in p.xDp..(p.xDp + p.widthDp) || (p.xDp + p.widthDp) in state.character.xDp..(state.character.xDp + state.character.widthDp)
 
 
                 if (
-                    newY + state.character.heightDp - state.character.mergeDp >= p.yDp && state.character.yDp + state.character.heightDp <= p.yDp + p.heightDp && isxcoordinatecorrect
+                    newY + state.character.heightDp - state.character.mergeDp >= p.yDp && state.character.yDp + state.character.heightDp <= p.yDp + p.heightDp && isXCoordinateCorrect
                 ) {
                     collided = true
                     finalVelocityY = jumpImpulse
@@ -237,8 +237,9 @@ class GameViewModel(var  repository: RecordRepository) : ViewModel() {
 
         if (finalY > 2000f){
             isGameOver = true;
-
-            repository.addRecord(ScoreRecord(state.data, state.score))
+            viewModelScope.launch {
+                repository.addRecord(ScoreRecord(state.data, state.score))
+            }
             gameJob?.cancel()
         }
 
