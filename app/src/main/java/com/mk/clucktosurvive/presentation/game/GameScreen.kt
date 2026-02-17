@@ -39,8 +39,8 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun GameScreen(
     viewModel: GameViewModel = koinViewModel(),
-    onPauseClick: () -> Unit,
-    onGameOver: () -> Unit
+    onGameOver: () -> Unit,
+    onExit: () -> Unit
 ) {
 
     val context = LocalContext.current
@@ -66,7 +66,7 @@ fun GameScreen(
     if(state.isPaused){
         PauseScreen(
             onResume = { viewModel.onResumeClick()},
-            onExit = {  }
+            onExit = onExit
         )
 
     } else

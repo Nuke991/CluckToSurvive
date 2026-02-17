@@ -45,18 +45,18 @@ fun AppNavigation() {
 
         composable("presentation/game") {
             GameScreen(
-                onPauseClick = { navController.navigate("pause") },
-                onGameOver = { navController.navigate("gameover") }
+               onGameOver = { navController.navigate("gameover") },
+               onExit = { navController.navigate("menu") { popUpTo("menu") { inclusive = true } } }
             )
         }
 
 
-        composable("pause") {
+        /*composable("pause") {
             PauseScreen(
                 onResume = { navController.popBackStack() },
                 onExit = { navController.navigate("menu") { popUpTo("menu") { inclusive = true } } }
             )
-        }
+        }*/
 
 
         composable("gameover") {
