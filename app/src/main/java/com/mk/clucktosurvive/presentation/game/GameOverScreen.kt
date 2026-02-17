@@ -19,11 +19,14 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.material3.Text
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun GameOverScreen(onPlayAgain: () -> Unit, onBack: () -> Unit) {
+fun GameOverScreen(viewModel: GameViewModel = koinViewModel(), onPlayAgain: () -> Unit, onBack: () -> Unit) {
 
-
+    val state by viewModel.uiState.collectAsState()
 
     Box(modifier = Modifier.fillMaxSize())
     {
@@ -76,7 +79,7 @@ fun GameOverScreen(onPlayAgain: () -> Unit, onBack: () -> Unit) {
 
 
             Text(
-                text = "M",
+                text = "${state.score}M",
                 color = Color.White,
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
