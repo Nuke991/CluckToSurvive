@@ -262,7 +262,8 @@ class GameViewModel(var  repository: RecordRepository) : ViewModel() {
         }
     }
 
-    fun onPauseClick() = _uiState.update { it.copy(isPaused = !it.isPaused) }
+    fun onPauseClick() = _uiState.update { it.copy(isPaused = true) }
+    fun onResumeClick() = _uiState.update { it.copy(isPaused = false) }
 
     /*fun onRestartClick() {
         _uiState.value = GameUiState(); startGame()

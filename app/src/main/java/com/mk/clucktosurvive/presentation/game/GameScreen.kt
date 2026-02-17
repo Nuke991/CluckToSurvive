@@ -62,24 +62,43 @@ fun GameScreen(
         BitmapFactory.decodeResource(context.resources, R.drawable.character1).asImageBitmap()
     }
 
-    Box(modifier = Modifier.fillMaxSize().onGloballyPositioned { coordinates ->
-        if (!isScreenReady) {
-            val widthPx = coordinates.size.width.toFloat()
-            val heightPx = coordinates.size.height.toFloat()
-            viewModel.updateScreenSize(widthPx, heightPx, density)
-            viewModel.resetGame(
-                charWidthPx = characterBitmap.width.toFloat(),
-                charHeightPx = characterBitmap.height.toFloat(),
-                context,
-                density
 
-            )
+    if(state.isPaused){
+        PauseScreen(
+            onResume = { viewModel.onResumeClick()},
+            onExit = {  }
+        )
 
-            isScreenReady = true
+    } else
+
+
+
+
+
+
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .onGloballyPositioned { coordinates ->
+            if (!isScreenReady) {
+                val widthPx = coordinates.size.width.toFloat()
+                val heightPx = coordinates.size.height.toFloat()
+                viewModel.updateScreenSize(widthPx, heightPx, density)
+                viewModel.resetGame(
+                    charWidthPx = characterBitmap.width.toFloat(),
+                    charHeightPx = characterBitmap.height.toFloat(),
+                    context,
+                    density
+
+                )
+
+                isScreenReady = true
+            }
+
+
         }
-
-
-    }.draggable( orientation = Orientation.Horizontal, state = rememberDraggableState {delta -> viewModel.onDrag(delta)}))
+        .draggable(
+            orientation = Orientation.Horizontal,
+            state = rememberDraggableState { delta -> viewModel.onDrag(delta) }))
     {
         Image(
             painter = painterResource(id = R.drawable.gamescreen),
@@ -121,7 +140,11 @@ fun GameScreen(
             modifier = Modifier
                 .align(Alignment.TopStart)
                 .padding(top = 65.dp, start = 30.dp),
-            onPauseClick = onPauseClick
+            onPauseClick = {
+
+                viewModel.onPauseClick()
+
+            }
         )
 
         Box(
