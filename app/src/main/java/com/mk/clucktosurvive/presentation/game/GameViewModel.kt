@@ -36,7 +36,7 @@ enum class PlatformType(val resourceId: Int) {
 }
 
 
-enum class GameScreen(val value: Int) {
+enum class GameScreenMove(val value: Int) {
     MOVETOP(1),
     MOVEDOWN(-1),
     FIXED(0);
@@ -63,7 +63,7 @@ data class Platform(
 
 
 data class GameUiState(
-    val gameScreen: GameScreen = GameScreen.FIXED,
+    val gameScreenMove: GameScreenMove = GameScreenMove.FIXED,
     val character: Character = Character(),
     val velocityY: Float = 0f,
     val score: Int = 0,
@@ -188,15 +188,15 @@ class GameViewModel(var  repository: RecordRepository) : ViewModel() {
         }
 
 
-        val gameScreenState = if (newY <= topborderYDp) {
-            GameScreen.MOVEDOWN
+        val gameScreenMoveState = if (newY <= topborderYDp) {
+            GameScreenMove.MOVEDOWN
         } else if (newY >= downborderY) {
-            GameScreen.MOVETOP
-        } else GameScreen.FIXED
+            GameScreenMove.MOVETOP
+        } else GameScreenMove.FIXED
 
 
         val finalY =
-            if (gameScreenState == GameScreen.MOVEDOWN && newVelocityY < 0) {
+            if (gameScreenMoveState == GameScreenMove.MOVEDOWN && newVelocityY < 0) {
                 topborderYDp
             } else {
                 (if (collided) state.character.yDp else newY)

@@ -39,7 +39,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun GameScreen(
     viewModel: GameViewModel = koinViewModel(),
-    onGameOver: () -> Unit,
+    onPlayAgain: ()->Unit,
     onExit: () -> Unit
 ) {
 
@@ -50,126 +50,123 @@ fun GameScreen(
 
     // если игра окончена → навигация
     if (state.isGameOver) {
-        onGameOver()
+        GameOverScreen(
+            onPlayAgain = onPlayAgain,
+            onBack = onExit
+        )
         state.isGameOver = false;
-    }
-
-
-
-
-    val density = androidx.compose.ui.platform.LocalDensity.current.density
-    val characterBitmap = remember {
-        BitmapFactory.decodeResource(context.resources, R.drawable.character1).asImageBitmap()
-    }
-
-
-    if(state.isPaused){
-        PauseScreen(
-            onResume = { viewModel.onResumeClick()},
-            onExit = onExit
-        )
-
-    } else
-
-
-
-
-
-
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .onGloballyPositioned { coordinates ->
-            if (!isScreenReady) {
-                val widthPx = coordinates.size.width.toFloat()
-                val heightPx = coordinates.size.height.toFloat()
-                viewModel.updateScreenSize(widthPx, heightPx, density)
-                viewModel.resetGame(
-                    charWidthPx = characterBitmap.width.toFloat(),
-                    charHeightPx = characterBitmap.height.toFloat(),
-                    context,
-                    density
-
-                )
-
-                isScreenReady = true
+    } else if (state.isPaused) {
+            PauseScreen(
+                onResume = { viewModel.onResumeClick() },
+                onExit = onExit
+            )
+    } else {
+            val density = androidx.compose.ui.platform.LocalDensity.current.density
+            val characterBitmap = remember {
+                BitmapFactory.decodeResource(context.resources, R.drawable.character1)
+                    .asImageBitmap()
             }
 
 
-        }
-        .draggable(
-            orientation = Orientation.Horizontal,
-            state = rememberDraggableState { delta -> viewModel.onDrag(delta) }))
-    {
-        Image(
-            painter = painterResource(id = R.drawable.gamescreen),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
-        )
 
-        Canvas(modifier = Modifier.fillMaxSize()) {
 
-            state.platforms.forEach { platform ->
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .onGloballyPositioned { coordinates ->
+                        if (!isScreenReady) {
+                            val widthPx = coordinates.size.width.toFloat()
+                            val heightPx = coordinates.size.height.toFloat()
+                            viewModel.updateScreenSize(widthPx, heightPx, density)
+                            viewModel.resetGame(
+                                charWidthPx = characterBitmap.width.toFloat(),
+                                charHeightPx = characterBitmap.height.toFloat(),
+                                context,
+                                density
 
-                drawImage(
-                    image = platform.platformBitmap,
-                    dstOffset = IntOffset(
-                        (platform.xDp * density).toInt(),
-                        (platform.yDp * density).toInt()
-                    ),
-                    dstSize = IntSize(
-                        platform.platformBitmap.width,
-                        platform.platformBitmap.height
+                            )
+
+                            isScreenReady = true
+                        }
+
+
+                    }
+                    .draggable(
+                        orientation = Orientation.Horizontal,
+                        state = rememberDraggableState { delta -> viewModel.onDrag(delta) })
+            )
+            {
+                Image(
+                    painter = painterResource(id = R.drawable.gamescreen),
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop
+                )
+
+                Canvas(modifier = Modifier.fillMaxSize()) {
+
+                    state.platforms.forEach { platform ->
+
+                        drawImage(
+                            image = platform.platformBitmap,
+                            dstOffset = IntOffset(
+                                (platform.xDp * density).toInt(),
+                                (platform.yDp * density).toInt()
+                            ),
+                            dstSize = IntSize(
+                                platform.platformBitmap.width,
+                                platform.platformBitmap.height
+                            )
+                        )
+                    }
+
+                    drawImage(
+                        image = characterBitmap,
+                        dstOffset = IntOffset(
+                            (state.character.xDp * density).toInt(),
+                            (state.character.yDp * density).toInt()
+                        ),
+                        dstSize = IntSize(
+                            (characterBitmap.width).toInt(),
+                            (characterBitmap.height).toInt()
+                        )
                     )
+                }
+                PauseButton(
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .padding(top = 65.dp, start = 30.dp),
+                    onPauseClick = {
+
+                        viewModel.onPauseClick()
+
+                    }
                 )
+
+                Box(
+                    modifier = Modifier
+                        .padding(top = 65.dp, end = 30.dp)
+                        .align(Alignment.TopEnd),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.records_screen),
+                        contentDescription = null,
+                        modifier = Modifier.size(width = 119.dp, height = 55.dp)
+                    )
+                    Text(
+                        text = "${state.score}M",
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp
+                    )
+
+                }
+
+
             }
 
-            drawImage(
-                image = characterBitmap,
-                dstOffset = IntOffset(
-                    (state.character.xDp * density).toInt(),
-                    (state.character.yDp * density).toInt()
-                ),
-                dstSize = IntSize(
-                    (characterBitmap.width).toInt(),
-                    (characterBitmap.height).toInt()
-                )
-            )
         }
-        PauseButton(
-            modifier = Modifier
-                .align(Alignment.TopStart)
-                .padding(top = 65.dp, start = 30.dp),
-            onPauseClick = {
-
-                viewModel.onPauseClick()
-
-            }
-        )
-
-        Box(
-            modifier = Modifier
-                .padding(top = 65.dp, end = 30.dp)
-                .align(Alignment.TopEnd),
-            contentAlignment = Alignment.Center
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.records_screen),
-                contentDescription = null,
-                modifier = Modifier.size(width = 119.dp, height = 55.dp)
-            )
-            Text(
-                text = "${state.score}M",
-                color = Color.White,
-                fontWeight = FontWeight.Bold,
-                fontSize = 16.sp
-            )
-
-        }
-
-
-    }
-
     if (isScreenReady) {
         LaunchedEffect(Unit) {
             viewModel.startGame()
