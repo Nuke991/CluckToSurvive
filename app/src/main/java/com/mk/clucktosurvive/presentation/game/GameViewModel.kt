@@ -17,6 +17,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import com.mk.clucktosurvive.domain.model.ScoreRecord
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 data class Character(
     var xDp: Float = 0f,
@@ -71,7 +74,7 @@ data class GameUiState(
     var isGameOver: Boolean = false,
     val platforms: List<Platform> = listOf(),
     val records: List<Record> = listOf(),
-    val data: String = "12.10.26"
+
 
 )
 
@@ -238,7 +241,9 @@ class GameViewModel(var  repository: RecordRepository) : ViewModel() {
         if (finalY > 2000f){
             isGameOver = true;
             viewModelScope.launch {
-                repository.addRecord(ScoreRecord(state.data, state.score))
+                val dateFormat = SimpleDateFormat("dd.MM", Locale.getDefault())
+                val currentDate = dateFormat.format(Date())
+                repository.addRecord(ScoreRecord(currentDate, state.score))
             }
             gameJob?.cancel()
         }
