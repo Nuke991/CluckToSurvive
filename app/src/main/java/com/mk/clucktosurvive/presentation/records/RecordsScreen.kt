@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
@@ -37,8 +38,8 @@ import org.koin.androidx.compose.koinViewModel
 fun RecordItem(record: ScoreRecord) {
     Box(
         modifier = Modifier
-            .fillMaxWidth()
-            .height(90.dp),
+            .width(270.dp)
+            .height(75.dp),
         contentAlignment = Alignment.Center
     ) {
 
@@ -59,13 +60,13 @@ fun RecordItem(record: ScoreRecord) {
             Text(
                 text = record.date,
                 color = Color.White,
-                fontSize = 22.sp,
+                fontSize = 18.sp,
                 fontWeight = FontWeight.Bold
             )
             Text(
                 text = "${record.score.toInt()}M",
                 color = Color.White,
-                fontSize = 22.sp,
+                fontSize = 18.sp,
                 fontWeight = FontWeight.Bold
             )
         }
@@ -110,7 +111,13 @@ fun RecordsScreen(
                 .fillMaxWidth()
                 .padding(top = 124.dp)
         )
-        LazyColumn(modifier = modifier.padding(vertical = 4.dp)) {
+        LazyColumn(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(top = 180.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
             items(state.records) { record ->
 
                 RecordItem(
