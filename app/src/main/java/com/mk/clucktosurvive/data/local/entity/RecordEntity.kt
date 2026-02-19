@@ -10,8 +10,4 @@ class RecordEntity(
     val date: String,
     val score : Int = 0
 
-
-) {
-
-
-}
+)

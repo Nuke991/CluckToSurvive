@@ -39,7 +39,7 @@ fun AppNavigation() {
 
         composable("presentation/game") {
             GameScreen(
-                // onGameOver = { navController.navigate("gameover") },
+
                 onExit = {
                     navController.navigate("menu") {
                         popUpTo("menu") { inclusive = true }
@@ -56,21 +56,6 @@ fun AppNavigation() {
         }
 
 
-
-/*
-        composable("gameover") {
-            GameOverScreen(
-                onPlayAgain = {
-                    navController.navigate("presentation/game") {
-                        popUpTo(
-                            "presentation/game"
-                        ) { inclusive = true }
-                    }
-                },
-                onBack = { navController.navigate("menu") { popUpTo("menu") { inclusive = true } } }
-            )
-        }
-*/
 
         composable("records") {
             RecordsScreen(

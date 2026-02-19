@@ -50,7 +50,7 @@ data class Platform(
 
     var xDp: Float,
     var yDp: Float,
-    //  val platformType: PlatformType,
+
     val platformBitmap: ImageBitmap,
     val density: Float
 
@@ -89,7 +89,7 @@ class GameViewModel(var  repository: RecordRepository) : ViewModel() {
     private val jumpImpulse = -20f
     private val topborderYDp = 400f
     private val downborderY = 800f
-    //private var isGameLaunched = false
+
     private val maxStepSize: Float = 200f;
 
 
@@ -145,7 +145,7 @@ class GameViewModel(var  repository: RecordRepository) : ViewModel() {
 
             )
         }
-        //isGameLaunched = true
+
     }
 
     fun startGame() {
@@ -208,7 +208,7 @@ class GameViewModel(var  repository: RecordRepository) : ViewModel() {
 
          val newCharY = if (newY <= topborderYDp && newVelocityY < 0) topborderYDp else if (collided) state.character.yDp else newY;
 
-        //val newCharY = if (collided) state.character.yDp else newY;
+
 
 
         var minY = screenHeightDp
@@ -270,10 +270,7 @@ class GameViewModel(var  repository: RecordRepository) : ViewModel() {
     fun onPauseClick() = _uiState.update { it.copy(isPaused = true) }
     fun onResumeClick() = _uiState.update { it.copy(isPaused = false) }
 
-    /*fun onRestartClick() {
-        _uiState.value = GameUiState(); startGame()
 
-    }*/
 
     fun updateScreenSize(widthPx: Float, heightPx: Float, density: Float) {
         screenWidthDp = widthPx / density

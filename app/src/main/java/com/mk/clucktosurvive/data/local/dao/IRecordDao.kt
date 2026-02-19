@@ -14,13 +14,11 @@ interface IRecordDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRecord(record: RecordEntity)
 
-    @Query("Select * From record_table Order By score desc")
+    @Query("SELECT* FROM record_table ORDER BY score DESC")
     fun getRecords(): Flow<List<RecordEntity>>
 
-    @Query("Delete From record_table")
-    suspend fun clearallrecords()
-
-
+    @Query("DELETE FROM record_table WHERE id NOT IN (SELECT id FROM record_table ORDER BY score DESC LIMIT :count)")
+    suspend fun deleteExcessiveRecords(count: Int)
 
 
 }

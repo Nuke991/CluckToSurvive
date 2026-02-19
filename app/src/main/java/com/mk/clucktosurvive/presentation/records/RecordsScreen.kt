@@ -82,7 +82,7 @@ fun RecordsScreen(
 {
 
     val state by recordsScreenViewModel.uiState.collectAsStateWithLifecycle()
-  // val state by viewModel.uiState.collectAsState()
+
 
 
     Box(modifier = Modifier.fillMaxSize())

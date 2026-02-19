@@ -18,6 +18,8 @@ class RecordRepository(private val recordDao: IRecordDao) {
             score = record.score
         )
         recordDao.insertRecord(recordEntity)
+        recordDao.deleteExcessiveRecords(4)
     }
+
 
 }

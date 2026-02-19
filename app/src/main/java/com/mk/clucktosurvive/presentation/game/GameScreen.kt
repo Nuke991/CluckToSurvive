@@ -48,7 +48,7 @@ fun GameScreen(
     var isScreenReady by remember { mutableStateOf(false) }
 
 
-    // если игра окончена → навигация
+
     if (state.isGameOver) {
         GameOverScreen(
             onPlayAgain = onPlayAgain,
