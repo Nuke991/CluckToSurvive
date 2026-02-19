@@ -22,7 +22,8 @@ fun PauseScreen(onResume: () -> Unit, onExit: () -> Unit) {
         Image(
             painter = painterResource(id = R.drawable.pausescreen),
             contentDescription = null,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            contentScale = androidx.compose.ui.layout.ContentScale.Crop
         )
         Column(
             modifier = Modifier.fillMaxSize(),
