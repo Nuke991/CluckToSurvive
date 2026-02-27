@@ -2,7 +2,7 @@ package com.mk.clucktosurvive.presentation.records
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mk.clucktosurvive.data.repository.RecordRepository
+import com.mk.clucktosurvive.domain.model.repository.RecordRepository
 import com.mk.clucktosurvive.domain.model.ScoreRecord
 
 import kotlinx.coroutines.flow.MutableStateFlow

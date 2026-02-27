@@ -1,4 +1,4 @@
-package com.mk.clucktosurvive.data.local.entity
+package com.mk.clucktosurvive.data.local
 
 import android.content.Context
 import androidx.room.Database

@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import com.mk.clucktosurvive.presentation.components.ReturnButton
 
 @Composable
@@ -41,4 +42,14 @@ fun PrivacyScreen(onBack:() -> Unit)
             fontWeight = FontWeight.ExtraBold), modifier = Modifier.align(Alignment.TopStart).padding(top = 124.dp, start = 100.dp))
 
     }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun privacyscreenpreview(){
+
+    PrivacyScreen(
+        onBack = {}
+    )
 }

@@ -21,6 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.material3.Text
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.tooling.preview.Preview
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -103,4 +104,14 @@ fun GameOverScreen(viewModel: GameViewModel = koinViewModel(), onPlayAgain: () -
             )
         }
     }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun GameOverScreenPreview() {
+    GameOverScreen(
+        onPlayAgain = {},
+        onBack = {}
+    )
 }

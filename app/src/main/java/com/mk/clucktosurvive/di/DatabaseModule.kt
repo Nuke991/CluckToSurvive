@@ -1,6 +1,6 @@
 package com.mk.clucktosurvive.di
 
-import com.mk.clucktosurvive.data.local.entity.AppDataBase
+import com.mk.clucktosurvive.data.local.AppDataBase
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 

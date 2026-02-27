@@ -7,7 +7,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mk.clucktosurvive.R
-import com.mk.clucktosurvive.data.repository.RecordRepository
+import com.mk.clucktosurvive.domain.model.repository.RecordRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

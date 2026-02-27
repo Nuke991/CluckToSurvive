@@ -1,4 +1,4 @@
-package com.mk.clucktosurvive.data.repository
+package com.mk.clucktosurvive.domain.model.repository
 
 import com.mk.clucktosurvive.domain.model.ScoreRecord
 import com.mk.clucktosurvive.data.local.entity.RecordEntity
