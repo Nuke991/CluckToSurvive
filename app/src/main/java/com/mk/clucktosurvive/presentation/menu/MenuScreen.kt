@@ -34,7 +34,7 @@ fun MenuScreen(
         ) {
 
             Image(
-                painter = painterResource(id = R.drawable.start_button),
+                painter = painterResource(id = R.drawable.button_start),
                 contentDescription = "Start Button",
                 modifier = Modifier
                     .fillMaxWidth(0.6f)
@@ -43,8 +43,8 @@ fun MenuScreen(
             )
 
             Image(
-                painter = painterResource(id = R.drawable.records_button),
-                contentDescription = "Start Button",
+                painter = painterResource(id = R.drawable.button_records),
+                contentDescription = "Records Button",
                 modifier = Modifier
                     .fillMaxWidth(0.6f)
                     .padding(8.dp)
@@ -52,7 +52,7 @@ fun MenuScreen(
             )
 
             Image(
-                painter = painterResource(id = R.drawable.privacypolicy_button),
+                painter = painterResource(id = R.drawable.button_privacy_policy),
                 contentDescription = "PrivacyPolicy_Button",
                 modifier = Modifier
                     .fillMaxWidth(0.6f)

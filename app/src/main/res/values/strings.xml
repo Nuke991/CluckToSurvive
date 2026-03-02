@@ -12,4 +12,19 @@
     <!-- Records screen -->
     <string name="records_screen_head">RECORDS SCREEN</string>
 
+
+    <!-- Game Screen -->
+
+    <!-- Menu Screen -->
+    <string name="menu_button_play">PLAY</string>
+    <string name="menu_button_settings">SETTINGS</string>
+    <string name="menu_button_privacy">PRIVACY POLICY</string>
+    <string name="menu_button_exit">EXIT</string>
+
+    <!-- Pause Screen -->
+    <string name="pause_resume">RESUME</string>
+    <string name="game_button_exit">EXIT</string>
+
+
+
 </resources>
