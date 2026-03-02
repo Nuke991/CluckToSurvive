@@ -13,6 +13,7 @@ import com.mk.clucktosurvive.R
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -20,8 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.mk.clucktosurvive.presentation.components.ReturnButton
 
 @Composable
-fun PrivacyScreen(onBack:() -> Unit)
-{
+fun PrivacyScreen(onBack: () -> Unit) {
     Box(modifier = Modifier.fillMaxSize())
     {
         Image(
@@ -34,12 +34,22 @@ fun PrivacyScreen(onBack:() -> Unit)
             modifier = Modifier
                 .align(Alignment.TopStart)
                 .padding(top = 65.dp, start = 30.dp),
-                onBack = onBack)
+            onBack = onBack
+        )
 
 
 
-        Text("PRIVACY POLICY", style = TextStyle(color = Color.White,fontSize = 25.sp,
-            fontWeight = FontWeight.ExtraBold), modifier = Modifier.align(Alignment.TopStart).padding(top = 124.dp, start = 100.dp))
+        Text(
+            text = stringResource(id = R.string.privacy_police_head),
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .padding(top = 124.dp, start = 100.dp),
+            style = TextStyle(
+                color = Color.White, fontSize = 25.sp,
+                fontWeight = FontWeight.ExtraBold
+            )
+        )
+
 
     }
 }
@@ -47,7 +57,7 @@ fun PrivacyScreen(onBack:() -> Unit)
 
 @Preview(showBackground = true)
 @Composable
-fun privacyscreenpreview(){
+fun privacyscreenpreview() {
 
     PrivacyScreen(
         onBack = {}

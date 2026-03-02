@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Cluck To Survive</string>
+
+
+    <!-- Loading screen -->
+    <string name="loading_text">LOADING...</string>
+
+    <!-- Privacy screen -->
+    <string name="privacy_police_head">PRIVACY POLICY</string>
+
+
+    <!-- Records screen -->
+    <string name="records_screen_head">RECORDS SCREEN</string>
+
 </resources>
