@@ -16,14 +16,14 @@
     <!-- Game Screen -->
 
     <!-- Menu Screen -->
-    <string name="menu_button_play">PLAY</string>
-    <string name="menu_button_settings">SETTINGS</string>
+    <string name="menu_button_start">START</string>
+    <string name="menu_button_records">RECORDS</string>
     <string name="menu_button_privacy">PRIVACY POLICY</string>
     <string name="menu_button_exit">EXIT</string>
 
     <!-- Pause Screen -->
     <string name="pause_resume">RESUME</string>
-    <string name="game_button_exit">EXIT</string>
+    <string name="pause_button_exit">EXIT</string>
 
 
 

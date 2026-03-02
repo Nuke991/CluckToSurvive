@@ -3,65 +3,107 @@ package com.mk.clucktosurvive.presentation.menu
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mk.clucktosurvive.R
-
+import com.mk.clucktosurvive.theme.MainButtonColor
 
 
 
 @Composable
 fun MenuScreen(
     onStartClick: () -> Unit,
-    onRecordsClick : () -> Unit,
+    onRecordsClick: () -> Unit,
     onPrivacyClick: () -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
+        // 1. ФОН ЕКРАНА
         Image(
             painter = painterResource(id = R.drawable.menu_main),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
         )
+
         Column(
             modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
+            verticalArrangement = Arrangement.Center, // Кнопки будуть по центру екрана
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
-            Image(
-                painter = painterResource(id = R.drawable.button_start),
-                contentDescription = "Start Button",
+            // КНОПКА PLAY (65% ширини екрана)
+            Box(
+                contentAlignment = Alignment.Center,
                 modifier = Modifier
-                    .fillMaxWidth(0.6f)
-                    .padding(8.dp)
+                    .fillMaxWidth(0.65f) // ВСТАНОВЛЮЄ РОЗМІР КНОПКИ
+                    .padding(vertical = 12.dp)
+                    .height(70.dp)// Відступи між кнопками
                     .clickable { onStartClick() }
-            )
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.button_start),
+                    contentDescription = null,
+                    modifier = Modifier.matchParentSize(),
+                    contentScale = ContentScale.FillBounds
+                )
+                Text(
+                    text = stringResource(id = R.string.menu_button_start).uppercase(),
+                    style = MaterialTheme.typography.displayLarge,
+                    color = MainButtonColor
+                )
+            }
 
-            Image(
-                painter = painterResource(id = R.drawable.button_records),
-                contentDescription = "Records Button",
+
+            Box(
+                contentAlignment = Alignment.Center,
                 modifier = Modifier
-                    .fillMaxWidth(0.6f)
-                    .padding(8.dp)
+                    .fillMaxWidth(0.65f)
+                    .padding(vertical = 12.dp)
+                    .height(70.dp)
                     .clickable { onRecordsClick() }
-            )
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.button_records),
+                    contentDescription = null,
+                    modifier = Modifier.matchParentSize(),
+                    contentScale = ContentScale.FillBounds
+                )
+                Text(
+                    text = stringResource(id = R.string.menu_button_records).uppercase(),
+                    style = MaterialTheme.typography.displayLarge,
+                    color = MainButtonColor
+                )
+            }
 
-            Image(
-                painter = painterResource(id = R.drawable.button_privacy_policy),
-                contentDescription = "PrivacyPolicy_Button",
+
+            Box(
+                contentAlignment = Alignment.Center,
                 modifier = Modifier
-                    .fillMaxWidth(0.6f)
-                    .padding(8.dp)
+                    .fillMaxWidth(0.65f)
+                    .padding(vertical = 12.dp)
+                    .height(70.dp)
                     .clickable { onPrivacyClick() }
-            )
-
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.button_privacy_policy),
+                    contentDescription = null,
+                    modifier = Modifier.matchParentSize(),
+                    contentScale = ContentScale.FillBounds
+                )
+                Text(
+                    text = stringResource(id = R.string.menu_button_privacy).uppercase(),
+                    style = MaterialTheme.typography.displayLarge,
+                    color = MainButtonColor
+                )
+            }
         }
     }
 }
-
 
