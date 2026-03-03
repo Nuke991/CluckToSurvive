@@ -22,8 +22,8 @@ import java.util.Date
 import java.util.Locale
 
 data class Character(
-    var xDp: Float = 0f,
-    var yDp: Float = 0f,
+    val xDp: Float = 0f,
+    val yDp: Float = 0f,
     val widthDp: Float = 42f,
     val heightDp: Float = 70f,
     val mergeDp: Float = 20f
@@ -48,8 +48,8 @@ enum class GameScreenMove(val value: Int) {
 
 data class Platform(
 
-    var xDp: Float,
-    var yDp: Float,
+    val xDp: Float,
+    val yDp: Float,
 
     val platformBitmap: ImageBitmap,
     val density: Float
@@ -71,11 +71,9 @@ data class GameUiState(
     val velocityY: Float = 0f,
     val score: Int = 0,
     val isPaused: Boolean = false,
-    var isGameOver: Boolean = false,
+    val isGameOver: Boolean = false,
     val platforms: List<Platform> = listOf(),
     val records: List<Record> = listOf(),
-
-
 )
 
 
@@ -97,8 +95,8 @@ class GameViewModel(var  repository: RecordRepository) : ViewModel() {
         charWidthPx: Float, charHeightPx: Float, context: Context, density: Float
     ) {
         //if (isGameLaunched) return
-        val characterWidth = charWidthPx / density
-        val characterHeight = charHeightPx / density
+        val characterWidth = charWidthPx ;// density
+        val characterHeight = charHeightPx; // density
 
         val screencenterdpX = screenWidthDp * 0.5f
         val screencenterdpY = screenHeightDp * 0.5f
@@ -110,7 +108,6 @@ class GameViewModel(var  repository: RecordRepository) : ViewModel() {
 
 
         do {
-
             val platformType: PlatformType =  PlatformType.entries[(0..1).random()];
             val bitmap = BitmapFactory.decodeResource(context.resources, platformType.resourceId)
                 .asImageBitmap()
@@ -215,8 +212,6 @@ class GameViewModel(var  repository: RecordRepository) : ViewModel() {
 
         state.platforms.forEach{ p ->
             minY = if(p.yDp < minY){p.yDp} else {minY}
-
-
         }
 
 

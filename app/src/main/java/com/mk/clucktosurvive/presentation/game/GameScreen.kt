@@ -32,6 +32,9 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asAndroidBitmap
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import org.koin.androidx.compose.koinViewModel
@@ -39,7 +42,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun GameScreen(
     viewModel: GameViewModel = koinViewModel(),
-    onPlayAgain: ()->Unit,
+    onPlayAgain: () -> Unit,
     onExit: () -> Unit
 ) {
 
@@ -54,119 +57,113 @@ fun GameScreen(
             onPlayAgain = onPlayAgain,
             onBack = onExit
         )
-        state.isGameOver = false;
+
     } else if (state.isPaused) {
-            PauseScreen(
-                onResume = { viewModel.onResumeClick() },
-                onExit = onExit
-            )
+        PauseScreen(
+            onResume = { viewModel.onResumeClick() },
+            onExit = onExit
+        )
     } else {
-            val density = androidx.compose.ui.platform.LocalDensity.current.density
-            val characterBitmap = remember {
-                BitmapFactory.decodeResource(context.resources, R.drawable.character1)
-                    .asImageBitmap()
+        val density = androidx.compose.ui.platform.LocalDensity.current.density
+        val characterBitmap = ImageBitmap.imageResource(R.drawable.character1);
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .onGloballyPositioned { coordinates ->
+                    if (!isScreenReady) {
+                        val widthPx = coordinates.size.width.toFloat()
+                        val heightPx = coordinates.size.height.toFloat()
+                        viewModel.updateScreenSize(widthPx, heightPx, density)
+                        viewModel.resetGame(
+                            charWidthPx = characterBitmap.width.toFloat(),
+                            charHeightPx = characterBitmap.height.toFloat(),
+                            context,
+                            density
+
+                        )
+
+                        isScreenReady = true
+                    }
+
+
+                }
+                .draggable(
+                    orientation = Orientation.Horizontal,
+                    state = rememberDraggableState { delta -> viewModel.onDrag(delta) })
+        )
+        {
+            Image(
+                painter = painterResource(id = R.drawable.gamescreen),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop
+            )
+
+            Canvas(modifier = Modifier.fillMaxSize()) {
+
+                state.platforms.forEach { platform ->
+
+                    drawImage(
+                        image = platform.platformBitmap,
+                        dstOffset = IntOffset(
+                            (platform.xDp * density).toInt(),
+                            (platform.yDp * density).toInt()
+                        ),
+                        dstSize = IntSize(
+                            platform.platformBitmap.width,
+                            platform.platformBitmap.height
+                        )
+                    )
+                }
+
+                drawImage(
+                    image = characterBitmap,
+                    dstOffset = IntOffset(
+                        (state.character.xDp * density).toInt(),
+                        (state.character.yDp * density).toInt()
+                    ),
+                    dstSize = IntSize(
+                        (characterBitmap.width * density).toInt(),
+                        (characterBitmap.height* density).toInt()
+                    )
+                )
             }
+            PauseButton(
+                modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .padding(top = 65.dp, start = 30.dp),
+                onPauseClick = {
 
+                    viewModel.onPauseClick()
 
-
+                }
+            )
 
             Box(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .onGloballyPositioned { coordinates ->
-                        if (!isScreenReady) {
-                            val widthPx = coordinates.size.width.toFloat()
-                            val heightPx = coordinates.size.height.toFloat()
-                            viewModel.updateScreenSize(widthPx, heightPx, density)
-                            viewModel.resetGame(
-                                charWidthPx = characterBitmap.width.toFloat(),
-                                charHeightPx = characterBitmap.height.toFloat(),
-                                context,
-                                density
-
-                            )
-
-                            isScreenReady = true
-                        }
-
-
-                    }
-                    .draggable(
-                        orientation = Orientation.Horizontal,
-                        state = rememberDraggableState { delta -> viewModel.onDrag(delta) })
-            )
-            {
+                    .padding(top = 65.dp, end = 30.dp)
+                    .align(Alignment.TopEnd),
+                contentAlignment = Alignment.Center
+            ) {
                 Image(
-                    painter = painterResource(id = R.drawable.gamescreen),
+                    painter = painterResource(id = R.drawable.records_screen),
                     contentDescription = null,
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop
+                    modifier = Modifier.size(width = 119.dp, height = 55.dp)
                 )
-
-                Canvas(modifier = Modifier.fillMaxSize()) {
-
-                    state.platforms.forEach { platform ->
-
-                        drawImage(
-                            image = platform.platformBitmap,
-                            dstOffset = IntOffset(
-                                (platform.xDp * density).toInt(),
-                                (platform.yDp * density).toInt()
-                            ),
-                            dstSize = IntSize(
-                                platform.platformBitmap.width,
-                                platform.platformBitmap.height
-                            )
-                        )
-                    }
-
-                    drawImage(
-                        image = characterBitmap,
-                        dstOffset = IntOffset(
-                            (state.character.xDp * density).toInt(),
-                            (state.character.yDp * density).toInt()
-                        ),
-                        dstSize = IntSize(
-                            (characterBitmap.width).toInt(),
-                            (characterBitmap.height).toInt()
-                        )
-                    )
-                }
-                PauseButton(
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .padding(top = 65.dp, start = 30.dp),
-                    onPauseClick = {
-
-                        viewModel.onPauseClick()
-
-                    }
+                Text(
+                    text = "${state.score}M",
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp
                 )
-
-                Box(
-                    modifier = Modifier
-                        .padding(top = 65.dp, end = 30.dp)
-                        .align(Alignment.TopEnd),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.records_screen),
-                        contentDescription = null,
-                        modifier = Modifier.size(width = 119.dp, height = 55.dp)
-                    )
-                    Text(
-                        text = "${state.score}M",
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp
-                    )
-
-                }
-
 
             }
 
+
         }
+
+    }
     if (isScreenReady) {
         LaunchedEffect(Unit) {
             viewModel.startGame()

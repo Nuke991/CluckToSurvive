@@ -65,7 +65,7 @@ fun RecordItem(record: ScoreRecord) {
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text = "${record.score.toInt()}M",
+                text = "${record.score}M",
                 color = Color.White,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold

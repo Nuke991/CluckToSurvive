@@ -35,6 +35,7 @@ import org.koin.androidx.compose.koinViewModel
 fun GameOverScreen(viewModel: GameViewModel = koinViewModel(), onPlayAgain: () -> Unit, onBack: () -> Unit) {
     val state by viewModel.uiState.collectAsState()
 
+
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(id = R.drawable.gameoverscreen),
