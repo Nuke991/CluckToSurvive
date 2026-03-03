@@ -83,9 +83,6 @@ fun GameScreen(
                     )
       )
 
-
-        val pair: Pair<Float, Float> = Pair(10f, 15f);
-
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -131,8 +128,8 @@ fun GameScreen(
                             (platform.yDp * density).toInt()
                         ),
                         dstSize = IntSize(
-                            platform.widthDp,
-                            platform.heightDp
+                            (platform.widthDp * density).toInt(),
+                            (platform.heightDp * density).toInt()
                         )
                     )
                 }
