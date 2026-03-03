@@ -20,10 +20,8 @@ import androidx.compose.ui.unit.dp
 import com.mk.clucktosurvive.R
 import com.mk.clucktosurvive.presentation.components.PauseButton
 import androidx.compose.runtime.remember
-import android.graphics.BitmapFactory
 import androidx.compose.foundation.Canvas
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -33,7 +31,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
@@ -67,6 +64,28 @@ fun GameScreen(
         val density = androidx.compose.ui.platform.LocalDensity.current.density
         val characterBitmap = ImageBitmap.imageResource(R.drawable.character1);
 
+
+        val platformsBitmaps: Map<PlatformType, ImageBitmap> = mapOf(
+            PlatformType.BIG to ImageBitmap.imageResource(PlatformType.BIG.resourceId),
+            PlatformType.SMALL to ImageBitmap.imageResource(PlatformType.SMALL.resourceId)
+        )
+
+        val platformSize: Map<PlatformType, Pair<Int, Int>> = mapOf(
+            PlatformType.BIG to
+                    Pair(
+                        platformsBitmaps.getValue(PlatformType.BIG).width,
+                        platformsBitmaps.getValue(PlatformType.BIG).height
+                    ),
+            PlatformType.SMALL to
+                    Pair(
+                        platformsBitmaps.getValue(PlatformType.SMALL).width,
+                        platformsBitmaps.getValue(PlatformType.SMALL).height
+                    )
+      )
+
+
+        val pair: Pair<Float, Float> = Pair(10f, 15f);
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -79,7 +98,8 @@ fun GameScreen(
                             charWidthPx = characterBitmap.width.toFloat(),
                             charHeightPx = characterBitmap.height.toFloat(),
                             context,
-                            density
+                            density,
+                            platformSize
 
                         )
 
@@ -105,14 +125,14 @@ fun GameScreen(
                 state.platforms.forEach { platform ->
 
                     drawImage(
-                        image = platform.platformBitmap,
+                        image = platformsBitmaps.getValue(platform.platformType),
                         dstOffset = IntOffset(
                             (platform.xDp * density).toInt(),
                             (platform.yDp * density).toInt()
                         ),
                         dstSize = IntSize(
-                            platform.platformBitmap.width,
-                            platform.platformBitmap.height
+                            platform.widthDp,
+                            platform.heightDp
                         )
                     )
                 }
@@ -125,7 +145,7 @@ fun GameScreen(
                     ),
                     dstSize = IntSize(
                         (characterBitmap.width * density).toInt(),
-                        (characterBitmap.height* density).toInt()
+                        (characterBitmap.height * density).toInt()
                     )
                 )
             }

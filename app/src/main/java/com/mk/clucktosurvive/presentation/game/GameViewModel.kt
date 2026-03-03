@@ -1,9 +1,6 @@
 package com.mk.clucktosurvive.presentation.game
 
 import android.content.Context
-import android.graphics.BitmapFactory
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mk.clucktosurvive.R
@@ -30,8 +27,6 @@ data class Character(
 )
 
 
-
-
 enum class PlatformType(val resourceId: Int) {
     SMALL(R.drawable.platform_small),
     BIG(R.drawable.platform_big),
@@ -47,23 +42,14 @@ enum class GameScreenMove(val value: Int) {
 
 
 data class Platform(
-
+    val platformType: PlatformType,
     val xDp: Float,
     val yDp: Float,
-
-    val platformBitmap: ImageBitmap,
+    val widthDp: Int,
+    val heightDp: Int,
     val density: Float
 
-) {
-
-    val widthDp: Float
-        get() = platformBitmap.width / density
-
-    val heightDp: Float
-        get() = platformBitmap.height / density
-
-}
-
+)
 
 data class GameUiState(
     val gameScreenMove: GameScreenMove = GameScreenMove.FIXED,
@@ -77,7 +63,7 @@ data class GameUiState(
 )
 
 
-class GameViewModel(var  repository: RecordRepository) : ViewModel() {
+class GameViewModel(var repository: RecordRepository) : ViewModel() {
     private var screenWidthDp: Float = 0f
     private var screenHeightDp: Float = 2000f
     private val _uiState = MutableStateFlow(GameUiState())
@@ -92,11 +78,15 @@ class GameViewModel(var  repository: RecordRepository) : ViewModel() {
 
 
     fun resetGame(
-        charWidthPx: Float, charHeightPx: Float, context: Context, density: Float
+        charWidthPx: Float,
+        charHeightPx: Float,
+        context: Context,
+        density: Float,
+        platformSize: Map<PlatformType, Pair<Int, Int>>
     ) {
         //if (isGameLaunched) return
-        val characterWidth = charWidthPx ;// density
-        val characterHeight = charHeightPx; // density
+        val characterWidth = charWidthPx
+        val characterHeight = charHeightPx
 
         val screencenterdpX = screenWidthDp * 0.5f
         val screencenterdpY = screenHeightDp * 0.5f
@@ -108,39 +98,50 @@ class GameViewModel(var  repository: RecordRepository) : ViewModel() {
 
 
         do {
-            val platformType: PlatformType =  PlatformType.entries[(0..1).random()];
-            val bitmap = BitmapFactory.decodeResource(context.resources, platformType.resourceId)
-                .asImageBitmap()
-            val platformXdp: Float = if(isFirst) { screencenterdpX - (bitmap.width/density)/2} else {(0..screenWidthDp.toInt()-(bitmap.width/density).toInt()).random().toFloat()};
+            val platformType: PlatformType = PlatformType.entries[(0..1).random()];
 
-            val newPlatform =  Platform(
+            val platformSize = platformSize.getValue(platformType);
+            var bitmapWidth = platformSize.first;
+            var bitmapHeight = platformSize.second;
+
+            //  val bitmap = BitmapFactory.decodeResource(context.resources, platformType.resourceId)
+            //     .asImageBitmap()
+            val platformXdp: Float = if (isFirst) {
+                screencenterdpX - (bitmapWidth / density) / 2
+            } else {
+                (0..screenWidthDp.toInt() - (bitmapWidth/ density).toInt()).random().toFloat()
+            };
+
+            val newPlatform = Platform(
+                platformType,
                 platformXdp,
                 platformYdp,
-                bitmap,
+                bitmapWidth,
+                bitmapHeight,
                 density
             )
             plList.add(newPlatform);
 
-            platformYdp -= ((maxStepSize/2).toInt()..maxStepSize.toInt()).random().toFloat();
+            platformYdp -= ((maxStepSize / 2).toInt()..maxStepSize.toInt()).random().toFloat();
             isFirst = false
-        } while (platformYdp >= -2*maxStepSize)
+        } while (platformYdp >= -2 * maxStepSize)
 
 
 
         _uiState.update {
             it.copy(
                 character = Character(
-                    screencenterdpX -(characterWidth / 2),
+                    screencenterdpX - (characterWidth / 2),
                     screencenterdpY,
                     widthDp = characterWidth,
                     heightDp = characterHeight,
 
-                ),
+                    ),
                 score = 0,
                 isGameOver = false,
                 platforms = plList,
 
-            )
+                )
         }
 
     }
@@ -165,7 +166,7 @@ class GameViewModel(var  repository: RecordRepository) : ViewModel() {
 
 
         val scrollThreshold: Float = 400f
-         val scrollOffset = if (newY < scrollThreshold) scrollThreshold - newY else 0f
+        val scrollOffset = if (newY < scrollThreshold) scrollThreshold - newY else 0f
 
 
         if (newVelocityY > 0) {
@@ -203,15 +204,18 @@ class GameViewModel(var  repository: RecordRepository) : ViewModel() {
             }
 
 
-         val newCharY = if (newY <= topborderYDp && newVelocityY < 0) topborderYDp else if (collided) state.character.yDp else newY;
-
-
+        val newCharY =
+            if (newY <= topborderYDp && newVelocityY < 0) topborderYDp else if (collided) state.character.yDp else newY;
 
 
         var minY = screenHeightDp
 
-        state.platforms.forEach{ p ->
-            minY = if(p.yDp < minY){p.yDp} else {minY}
+        state.platforms.forEach { p ->
+            minY = if (p.yDp < minY) {
+                p.yDp
+            } else {
+                minY
+            }
         }
 
 
@@ -219,11 +223,12 @@ class GameViewModel(var  repository: RecordRepository) : ViewModel() {
             val moveplatformY = p.yDp + platformShift
             if (moveplatformY > screenHeightDp) {
 
-                val randomVal = (maxStepSize.toInt()/3..maxStepSize.toInt()).random();
+                val randomVal = (maxStepSize.toInt() / 3..maxStepSize.toInt()).random();
 
                 p.copy(
                     yDp = (minY - randomVal),
-                    xDp = (0..screenWidthDp.toInt()-p.widthDp.toInt()).random().toFloat())
+                    xDp = (0..screenWidthDp.toInt() - p.widthDp.toInt()).random().toFloat()
+                )
             } else
                 p.copy(yDp = moveplatformY)
 
@@ -233,7 +238,7 @@ class GameViewModel(var  repository: RecordRepository) : ViewModel() {
         var isGameOver = false
 
 
-        if (finalY > 2000f){
+        if (finalY > 2000f) {
             isGameOver = true;
             viewModelScope.launch {
                 val dateFormat = SimpleDateFormat("dd.MM", Locale.getDefault())
@@ -264,7 +269,6 @@ class GameViewModel(var  repository: RecordRepository) : ViewModel() {
 
     fun onPauseClick() = _uiState.update { it.copy(isPaused = true) }
     fun onResumeClick() = _uiState.update { it.copy(isPaused = false) }
-
 
 
     fun updateScreenSize(widthPx: Float, heightPx: Float, density: Float) {
