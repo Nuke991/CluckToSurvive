@@ -68,7 +68,7 @@ fun GameOverScreen(viewModel: GameViewModel = koinViewModel(), onPlayAgain: () -
             Image(
                 painter = painterResource(id = R.drawable.gameovertext),
                 contentDescription = null,
-                modifier = Modifier.fillMaxWidth(0.9f),
+                modifier = Modifier.fillMaxWidth(0.8f),
                 contentScale = ContentScale.FillWidth
             )
 
