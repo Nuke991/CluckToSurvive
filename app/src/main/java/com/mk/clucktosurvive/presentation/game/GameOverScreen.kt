@@ -97,7 +97,7 @@ fun GameOverScreen(viewModel: GameViewModel = koinViewModel(), onPlayAgain: () -
             contentAlignment = Alignment.Center
         ) {
             Image(
-                painter = painterResource(id = R.drawable.playagainbutton),
+                painter = painterResource(id = R.drawable.button_playagain),
                 contentDescription = "Play Again",
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Fit
