@@ -62,7 +62,7 @@ fun PauseScreen(onResume: () -> Unit, onExit: () -> Unit) {
                     contentScale = androidx.compose.ui.layout.ContentScale.FillBounds
                 )
                 Text(
-                    text = stringResource(id = R.string.pause_resume).uppercase(),
+                    text = stringResource(id = R.string.pause_resume),
                     style = MaterialTheme.typography.bodyLarge,
                     color = MainButtonColor
                 )
@@ -84,7 +84,7 @@ fun PauseScreen(onResume: () -> Unit, onExit: () -> Unit) {
                     contentScale = androidx.compose.ui.layout.ContentScale.FillBounds
                 )
                 Text(
-                    text = stringResource(id = R.string.pause_button_exit).uppercase(),
+                    text = stringResource(id = R.string.pause_button_exit),
                     style = MaterialTheme.typography.bodyLarge,
                     color = MainButtonColor
                 )

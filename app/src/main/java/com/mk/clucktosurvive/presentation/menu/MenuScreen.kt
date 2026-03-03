@@ -25,7 +25,7 @@ fun MenuScreen(
     onPrivacyClick: () -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
-        // 1. ФОН ЕКРАНА
+
         Image(
             painter = painterResource(id = R.drawable.menu_main),
             contentDescription = null,
@@ -35,16 +35,16 @@ fun MenuScreen(
 
         Column(
             modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center, // Кнопки будуть по центру екрана
+            verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // КНОПКА PLAY (65% ширини екрана)
+
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
-                    .fillMaxWidth(0.65f) // ВСТАНОВЛЮЄ РОЗМІР КНОПКИ
+                    .fillMaxWidth(0.65f)
                     .padding(vertical = 12.dp)
-                    .height(70.dp)// Відступи між кнопками
+                    .height(70.dp)
                     .clickable { onStartClick() }
             ) {
                 Image(
@@ -54,8 +54,8 @@ fun MenuScreen(
                     contentScale = ContentScale.FillBounds
                 )
                 Text(
-                    text = stringResource(id = R.string.menu_button_start).uppercase(),
-                    style = MaterialTheme.typography.displayLarge,
+                    text = stringResource(id = R.string.menu_button_start),
+                    style = MaterialTheme.typography.bodyLarge,
                     color = MainButtonColor
                 )
             }
@@ -76,8 +76,8 @@ fun MenuScreen(
                     contentScale = ContentScale.FillBounds
                 )
                 Text(
-                    text = stringResource(id = R.string.menu_button_records).uppercase(),
-                    style = MaterialTheme.typography.displayLarge,
+                    text = stringResource(id = R.string.menu_button_records),
+                    style = MaterialTheme.typography.bodyLarge,
                     color = MainButtonColor
                 )
             }
@@ -98,8 +98,8 @@ fun MenuScreen(
                     contentScale = ContentScale.FillBounds
                 )
                 Text(
-                    text = stringResource(id = R.string.menu_button_privacy).uppercase(),
-                    style = MaterialTheme.typography.displayLarge,
+                    text = stringResource(id = R.string.menu_button_privacy),
+                    style = MaterialTheme.typography.bodyLarge,
                     color = MainButtonColor
                 )
             }
