@@ -18,13 +18,14 @@ import androidx.compose.ui.unit.dp
 import com.mk.clucktosurvive.R
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import com.mk.clucktosurvive.theme.MainButtonColor
 
 @Composable
 fun PauseScreen(onResume: () -> Unit, onExit: () -> Unit) {
     Box(modifier = Modifier.fillMaxSize()) {
-        // ФОН ПАУЗИ
+
         Image(
             painter = painterResource(id = R.drawable.pausescreen),
             contentDescription = null,
@@ -42,8 +43,9 @@ fun PauseScreen(onResume: () -> Unit, onExit: () -> Unit) {
                 painter = painterResource(id = R.drawable.pausetext),
                 contentDescription = null,
                 modifier = Modifier
-                    .fillMaxWidth(0.7f)
-                    .padding(bottom = 32.dp)
+                    .fillMaxWidth(0.9f)
+                    .padding(16.dp),
+                    contentScale = ContentScale.FillWidth
             )
 
 

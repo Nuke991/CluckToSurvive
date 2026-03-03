@@ -25,6 +25,9 @@
     <string name="pause_resume">Resume</string>
     <string name="pause_button_exit">Exit</string>
 
+    <!-- Game Over Screen -->
+    <string name="game_over_play_again">Play Again</string>
+
 
 
 </resources>
