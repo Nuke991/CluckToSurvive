@@ -61,7 +61,7 @@ data class GameUiState(
 
 class GameViewModel(var repository: RecordRepository) : ViewModel() {
 
-    private  val MERGE_Y = 17f;
+    private  val MERGE_Y = 17f
 
     private var screenWidthDp: Float = 0f
     public var screenHeightDp: Float = 0f
@@ -73,7 +73,7 @@ class GameViewModel(var repository: RecordRepository) : ViewModel() {
     private val topborderYDp = 400f
     private val downborderY = 800f
 
-    private val maxStepSize: Float = 200f;
+    private val maxStepSize: Float = 200f
 
 
     fun resetGame(
@@ -89,24 +89,24 @@ class GameViewModel(var repository: RecordRepository) : ViewModel() {
 
         val plList = mutableListOf<Platform>()
 
-        var platformYdp = 600f;
+        var platformYdp = 600f
         var isFirst: Boolean = true
 
 
         do {
-            val platformType: PlatformType = PlatformType.entries[(0..1).random()];
+            val platformType: PlatformType = PlatformType.entries[(0..1).random()]
 
-            val platformSize = platformSize.getValue(platformType);
-            var bitmapWidth = platformSize.first;
-            var bitmapHeight = platformSize.second;
+            val platformSize = platformSize.getValue(platformType)
+            var bitmapWidth = platformSize.first
+            var bitmapHeight = platformSize.second
 
 
             val platformXdp: Float = if (isFirst) {
-                screenCenterDpX - bitmapWidth / 2;
+                screenCenterDpX - bitmapWidth / 2
             } else {
                 (0..screenWidthDp.toInt() - bitmapWidth).random().toFloat()
 
-            };
+            }
 
             val newPlatform = Platform(
                 platformType,
@@ -115,9 +115,9 @@ class GameViewModel(var repository: RecordRepository) : ViewModel() {
                 bitmapWidth,
                 bitmapHeight
             )
-            plList.add(newPlatform);
+            plList.add(newPlatform)
 
-            platformYdp -= ((maxStepSize / 2).toInt()..maxStepSize.toInt()).random().toFloat();
+            platformYdp -= ((maxStepSize / 2).toInt()..maxStepSize.toInt()).random().toFloat()
             isFirst = false
         } while (platformYdp >= -2 * maxStepSize)
 
@@ -195,12 +195,12 @@ class GameViewModel(var repository: RecordRepository) : ViewModel() {
 
 
         val newCharY =
-            if (newY <= topborderYDp && newVelocityY < 0) topborderYDp else if (collided) state.character.yDp else newY;
+            if (newY <= topborderYDp && newVelocityY < 0) topborderYDp else if (collided) state.character.yDp else newY
 
 
         val newPlatforms = recalcPlatforms(state, platformShift, screenHeightDp)
 
-        val isGameOver = (finalY > screenHeightDp);
+        val isGameOver = (finalY > screenHeightDp)
 
         checkGameOver(isGameOver, state)
 
@@ -232,7 +232,7 @@ class GameViewModel(var repository: RecordRepository) : ViewModel() {
         platformShift: Float,
         screenHeightDp: Float
     ): List<Platform> {
-        var minY = screenHeightDp;
+        var minY = screenHeightDp
 
         state.platforms.forEach { p ->
             minY = if (p.yDp < minY) {
@@ -246,7 +246,7 @@ class GameViewModel(var repository: RecordRepository) : ViewModel() {
             val moveplatformY = p.yDp + platformShift
             if (moveplatformY > screenHeightDp) {
 
-                val randomVal = (maxStepSize.toInt() / 3..maxStepSize.toInt()).random();
+                val randomVal = (maxStepSize.toInt() / 3..maxStepSize.toInt()).random()
 
                 p.copy(
                     yDp = (minY - randomVal),
