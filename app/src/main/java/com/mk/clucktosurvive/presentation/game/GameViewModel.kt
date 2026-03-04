@@ -250,7 +250,7 @@ class GameViewModel(var repository: RecordRepository) : ViewModel() {
 
                 p.copy(
                     yDp = (minY - randomVal),
-                    xDp = (0..screenWidthDp.toInt() - p.widthDp.toInt()).random().toFloat()
+                    xDp = (0..screenWidthDp.toInt() - p.widthDp).random().toFloat()
                 )
             } else
                 p.copy(yDp = moveplatformY)
