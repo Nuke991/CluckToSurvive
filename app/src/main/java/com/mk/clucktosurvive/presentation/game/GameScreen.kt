@@ -94,8 +94,6 @@ fun GameScreen(
                         viewModel.resetGame(
                             charWidthPx = characterBitmap.width.toFloat(),
                             charHeightPx = characterBitmap.height.toFloat(),
-                            context,
-                            density,
                             platformSize
 
                         )

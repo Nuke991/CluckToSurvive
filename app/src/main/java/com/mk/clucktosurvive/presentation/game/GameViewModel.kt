@@ -47,8 +47,6 @@ data class Platform(
     val yDp: Float,
     val widthDp: Int,
     val heightDp: Int,
-    val density: Float
-
 )
 
 data class GameUiState(
@@ -80,11 +78,8 @@ class GameViewModel(var repository: RecordRepository) : ViewModel() {
     fun resetGame(
         charWidthPx: Float,
         charHeightPx: Float,
-        context: Context,
-        density: Float,
         platformSize: Map<PlatformType, Pair<Int, Int>>
     ) {
-        //if (isGameLaunched) return
         val characterWidth = charWidthPx
         val characterHeight = charHeightPx
 
@@ -93,7 +88,7 @@ class GameViewModel(var repository: RecordRepository) : ViewModel() {
 
         val plList = mutableListOf<Platform>()
 
-        var platformYdp: Float = 600f;
+        var platformYdp = 600f;
         var isFirst: Boolean = true
 
 
@@ -104,12 +99,12 @@ class GameViewModel(var repository: RecordRepository) : ViewModel() {
             var bitmapWidth = platformSize.first;
             var bitmapHeight = platformSize.second;
 
-            //  val bitmap = BitmapFactory.decodeResource(context.resources, platformType.resourceId)
-            //     .asImageBitmap()
+
             val platformXdp: Float = if (isFirst) {
-                screencenterdpX - (bitmapWidth / density) / 2
+                screencenterdpX - bitmapWidth / 2;
             } else {
-                (0..screenWidthDp.toInt() - (bitmapWidth/ density).toInt()).random().toFloat()
+                (0..screenWidthDp.toInt() - bitmapWidth).random().toFloat()
+
             };
 
             val newPlatform = Platform(
@@ -117,8 +112,7 @@ class GameViewModel(var repository: RecordRepository) : ViewModel() {
                 platformXdp,
                 platformYdp,
                 bitmapWidth,
-                bitmapHeight,
-                density
+                bitmapHeight
             )
             plList.add(newPlatform);
 
