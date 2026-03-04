@@ -160,10 +160,6 @@ class GameViewModel(var repository: RecordRepository) : ViewModel() {
             if (newY <= topborderYDp && newVelocityY < 0) topborderYDp - newY else 0f
 
 
-        val scrollThreshold: Float = screenHeightDp * 0.5f
-        val scrollOffset = if (newY < scrollThreshold) scrollThreshold - newY else 0f
-
-
         if (newVelocityY > 0) {
             state.platforms.forEach { p ->
                 val isXCoordinateCorrect: Boolean =
@@ -207,7 +203,7 @@ class GameViewModel(var repository: RecordRepository) : ViewModel() {
         state.copy(
             character = state.character.copy(yDp = newCharY),
             velocityY = finalVelocityY,
-            score = state.score + scrollOffset.toInt(),
+            score = state.score + platformShift.toInt(),
             isGameOver = isGameOver,
             platforms = newPlatforms,
         )
