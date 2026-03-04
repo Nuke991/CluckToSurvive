@@ -21,7 +21,6 @@ import com.mk.clucktosurvive.R
 import com.mk.clucktosurvive.presentation.components.PauseButton
 import androidx.compose.runtime.remember
 import androidx.compose.foundation.Canvas
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -43,7 +42,6 @@ fun GameScreen(
     onExit: () -> Unit
 ) {
 
-    val context = LocalContext.current
     val state by viewModel.uiState.collectAsState()
     var isScreenReady by remember { mutableStateOf(false) }
 
@@ -62,7 +60,7 @@ fun GameScreen(
         )
     } else {
         val density = androidx.compose.ui.platform.LocalDensity.current.density
-        val characterBitmap = ImageBitmap.imageResource(R.drawable.character1);
+        val characterBitmap = ImageBitmap.imageResource(R.drawable.character1)
 
 
         val platformsBitmaps: Map<PlatformType, ImageBitmap> = mapOf(
@@ -105,7 +103,7 @@ fun GameScreen(
                 }
                 .draggable(
                     orientation = Orientation.Horizontal,
-                    state = rememberDraggableState { delta -> viewModel.onDrag(delta) })
+                    state = rememberDraggableState { delta -> viewModel.onDrag(delta, density) })
         )
         {
             Image(

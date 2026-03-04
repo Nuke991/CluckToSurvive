@@ -1,6 +1,5 @@
 package com.mk.clucktosurvive.presentation.game
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mk.clucktosurvive.R
@@ -253,10 +252,10 @@ class GameViewModel(var repository: RecordRepository) : ViewModel() {
         )
     }
 
-    fun onDrag(deltaX: Float) {
+    fun onDrag(deltaX: Float, density: Float) {
         _uiState.update { state ->
             val newX =
-                (state.character.xDp + deltaX).coerceIn(0f, screenWidthDp - state.character.widthDp)
+                (state.character.xDp + deltaX / density).coerceIn(0f, screenWidthDp - state.character.widthDp)
             state.copy(character = state.character.copy(xDp = newX))
         }
     }
