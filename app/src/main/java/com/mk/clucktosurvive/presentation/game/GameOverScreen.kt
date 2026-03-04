@@ -34,87 +34,8 @@ fun GameOverScreen(viewModel: GameViewModel = koinViewModel(), onPlayAgain: () -
 
 
 
+    GameOverScreenContent(onPlayAgain,onBack,state)
 
-
-    Box(modifier = Modifier.fillMaxSize()) {
-        Image(
-            painter = painterResource(id = R.drawable.gameoverscreen),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
-        )
-
-
-        Box(
-            modifier = Modifier
-                .align(Alignment.TopStart)
-                .padding(top = 65.dp, start = 30.dp)
-                .size(55.dp)
-                .clickable { onBack() }
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.returnbutton),
-                contentDescription = null,
-                modifier = Modifier.fillMaxSize()
-            )
-        }
-
-
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-
-            Image(
-                painter = painterResource(id = R.drawable.gameovertext),
-                contentDescription = null,
-                modifier = Modifier.fillMaxWidth(0.8f),
-                contentScale = ContentScale.FillWidth
-            )
-
-
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier.padding(vertical = 20.dp).size(width = 150.dp, height = 65.dp)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.small_recordsbutton),
-                    contentDescription = null,
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.FillBounds
-                )
-                Text(
-                    text = "${state.score}M",
-                    style = MaterialTheme.typography.bodyLarge.copy(
-                        fontSize = 22.sp,
-                        color = Color.White
-                    )
-                )
-            }
-
-
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .fillMaxWidth(0.75f)
-                    .height(80.dp)
-                    .clickable { onPlayAgain() }
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.button_playagain),
-                    contentDescription = null,
-                    modifier = Modifier.matchParentSize(),
-                    contentScale = ContentScale.FillBounds
-                )
-                Text(
-                    text = stringResource(id = R.string.game_over_play_again),
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MainButtonColor
-                )
-            }
-        }
-    }
 }
 
 @Composable
