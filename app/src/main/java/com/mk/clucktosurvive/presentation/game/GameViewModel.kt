@@ -158,26 +158,20 @@ class GameViewModel(var repository: RecordRepository) : ViewModel() {
             if (newY <= topborderYDp && newVelocityY < 0) topborderYDp - newY else 0f
 
 
-        val scrollThreshold: Float = 400f
+        val scrollThreshold: Float = screenHeightDp * 0.5f
         val scrollOffset = if (newY < scrollThreshold) scrollThreshold - newY else 0f
 
 
         if (newVelocityY > 0) {
-
             state.platforms.forEach { p ->
-
                 val isXCoordinateCorrect: Boolean =
                     (state.character.xDp + state.character.widthDp) in p.xDp..(p.xDp + p.widthDp) || (p.xDp + p.widthDp) in state.character.xDp..(state.character.xDp + state.character.widthDp)
-
-
                 if (
                     newY + state.character.heightDp - state.character.mergeDp >= p.yDp && state.character.yDp + state.character.heightDp <= p.yDp + p.heightDp && isXCoordinateCorrect
                 ) {
                     collided = true
                     finalVelocityY = jumpImpulse
                 }
-
-
             }
         }
 
