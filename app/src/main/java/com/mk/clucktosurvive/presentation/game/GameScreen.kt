@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import org.koin.androidx.compose.koinViewModel
 
@@ -184,6 +185,15 @@ fun GameScreen(
             viewModel.startGame()
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GameScreenPreview() {
+    GameScreen(
+        onPlayAgain = {},
+        onExit = {}
+    )
 }
 
 

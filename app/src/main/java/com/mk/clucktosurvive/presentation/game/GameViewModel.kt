@@ -3,6 +3,7 @@ package com.mk.clucktosurvive.presentation.game
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mk.clucktosurvive.R
+import com.mk.clucktosurvive.domain.model.ScoreRecord
 import com.mk.clucktosurvive.domain.model.repository.RecordRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -12,7 +13,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import com.mk.clucktosurvive.domain.model.ScoreRecord
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -20,9 +20,8 @@ import java.util.Locale
 data class Character(
     val xDp: Float = 0f,
     val yDp: Float = 0f,
-    val widthDp: Float = 42f,
-    val heightDp: Float = 70f,
-    val mergeDp: Float = 20f
+    val widthDp: Float = 0f,
+    val heightDp: Float = 0f,
 )
 
 
@@ -61,8 +60,11 @@ data class GameUiState(
 
 
 class GameViewModel(var repository: RecordRepository) : ViewModel() {
+
+    private  val MERGE_Y = 17f;
+
     private var screenWidthDp: Float = 0f
-    public var screenHeightDp: Float = 2000f
+    public var screenHeightDp: Float = 0f
     private val _uiState = MutableStateFlow(GameUiState())
     val uiState: StateFlow<GameUiState> = _uiState.asStateFlow()
     private var gameJob: Job? = null
@@ -82,8 +84,8 @@ class GameViewModel(var repository: RecordRepository) : ViewModel() {
         val characterWidth = charWidthPx
         val characterHeight = charHeightPx
 
-        val screencenterdpX = screenWidthDp * 0.5f
-        val screencenterdpY = screenHeightDp * 0.5f
+        val screenCenterDpX = screenWidthDp * 0.5f
+        val screenCenterDpY = screenHeightDp * 0.5f
 
         val plList = mutableListOf<Platform>()
 
@@ -100,7 +102,7 @@ class GameViewModel(var repository: RecordRepository) : ViewModel() {
 
 
             val platformXdp: Float = if (isFirst) {
-                screencenterdpX - bitmapWidth / 2;
+                screenCenterDpX - bitmapWidth / 2;
             } else {
                 (0..screenWidthDp.toInt() - bitmapWidth).random().toFloat()
 
@@ -124,8 +126,8 @@ class GameViewModel(var repository: RecordRepository) : ViewModel() {
         _uiState.update {
             it.copy(
                 character = Character(
-                    screencenterdpX - (characterWidth / 2),
-                    screencenterdpY,
+                    screenCenterDpX - (characterWidth / 2),
+                    screenCenterDpY,
                     widthDp = characterWidth,
                     heightDp = characterHeight,
 
@@ -166,8 +168,9 @@ class GameViewModel(var repository: RecordRepository) : ViewModel() {
             state.platforms.forEach { p ->
                 val isXCoordinateCorrect: Boolean =
                     (state.character.xDp + state.character.widthDp) in p.xDp..(p.xDp + p.widthDp) || (p.xDp + p.widthDp) in state.character.xDp..(state.character.xDp + state.character.widthDp)
+
                 if (
-                    newY + state.character.heightDp - state.character.mergeDp >= p.yDp && state.character.yDp + state.character.heightDp <= p.yDp + p.heightDp && isXCoordinateCorrect
+                    newY + state.character.heightDp - MERGE_Y >= p.yDp && state.character.yDp + state.character.heightDp <= p.yDp + p.heightDp && isXCoordinateCorrect
                 ) {
                     collided = true
                     finalVelocityY = jumpImpulse
@@ -195,7 +198,41 @@ class GameViewModel(var repository: RecordRepository) : ViewModel() {
             if (newY <= topborderYDp && newVelocityY < 0) topborderYDp else if (collided) state.character.yDp else newY;
 
 
-        var minY = screenHeightDp
+        val newPlatforms = recalcPlatforms(state, platformShift, screenHeightDp)
+
+        val isGameOver = (finalY > screenHeightDp);
+
+        checkGameOver(isGameOver, state)
+
+        state.copy(
+            character = state.character.copy(yDp = newCharY),
+            velocityY = finalVelocityY,
+            score = state.score + scrollOffset.toInt(),
+            isGameOver = isGameOver,
+            platforms = newPlatforms,
+        )
+    }
+
+    private fun checkGameOver(
+        isGameOver: Boolean,
+        state: GameUiState
+    ) {
+        if (isGameOver) {
+            viewModelScope.launch {
+                val dateFormat = SimpleDateFormat("dd.MM", Locale.getDefault())
+                val currentDate = dateFormat.format(Date())
+                repository.addRecord(ScoreRecord(currentDate, state.score))
+            }
+            gameJob?.cancel()
+        }
+    }
+
+    private fun recalcPlatforms(
+        state: GameUiState,
+        platformShift: Float,
+        screenHeightDp: Float
+    ): List<Platform> {
+        var minY = screenHeightDp;
 
         state.platforms.forEach { p ->
             minY = if (p.yDp < minY) {
@@ -204,7 +241,6 @@ class GameViewModel(var repository: RecordRepository) : ViewModel() {
                 minY
             }
         }
-
 
         val newPlatforms = state.platforms.map { p ->
             val moveplatformY = p.yDp + platformShift
@@ -220,36 +256,16 @@ class GameViewModel(var repository: RecordRepository) : ViewModel() {
                 p.copy(yDp = moveplatformY)
 
         }
-
-
-        var isGameOver = false
-
-
-        if (finalY > 2000f) {
-            isGameOver = true;
-            viewModelScope.launch {
-                val dateFormat = SimpleDateFormat("dd.MM", Locale.getDefault())
-                val currentDate = dateFormat.format(Date())
-                repository.addRecord(ScoreRecord(currentDate, state.score))
-            }
-            gameJob?.cancel()
-        }
-
-
-
-        state.copy(
-            character = state.character.copy(yDp = newCharY),
-            velocityY = finalVelocityY,
-            score = state.score + scrollOffset.toInt(),
-            isGameOver = isGameOver,
-            platforms = newPlatforms,
-        )
+        return newPlatforms
     }
 
     fun onDrag(deltaX: Float, density: Float) {
         _uiState.update { state ->
             val newX =
-                (state.character.xDp + deltaX / density).coerceIn(0f, screenWidthDp - state.character.widthDp)
+                (state.character.xDp + deltaX / density).coerceIn(
+                    0f,
+                    screenWidthDp - state.character.widthDp
+                )
             state.copy(character = state.character.copy(xDp = newX))
         }
     }

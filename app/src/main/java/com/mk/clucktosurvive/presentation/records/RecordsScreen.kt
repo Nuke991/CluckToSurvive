@@ -12,26 +12,24 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
-import com.mk.clucktosurvive.R
-import com.mk.clucktosurvive.presentation.components.ReturnButton
-import androidx.compose.material3.Text
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.mk.clucktosurvive.R
 import com.mk.clucktosurvive.domain.model.ScoreRecord
+import com.mk.clucktosurvive.presentation.components.ReturnButton
 import org.koin.androidx.compose.koinViewModel
 
 
@@ -78,7 +76,6 @@ fun RecordItem(record: ScoreRecord) {
 @Composable
 fun RecordsScreen(
     recordsScreenViewModel: RecordsScreenViewModel = koinViewModel(),
-    modifier: Modifier = Modifier,
     onBack: () -> Unit)
 {
 
@@ -86,6 +83,16 @@ fun RecordsScreen(
 
 
 
+    RecordScreenContent(onBack, state)
+
+
+}
+
+@Composable
+private fun RecordScreenContent(
+    onBack: () -> Unit,
+    state: RecordsUiState
+) {
     Box(modifier = Modifier.fillMaxSize())
     {
         Image(
@@ -111,7 +118,7 @@ fun RecordsScreen(
             )
         )
         LazyColumn(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 180.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -127,7 +134,19 @@ fun RecordsScreen(
 
         }
     }
-
-
 }
 
+@Preview(showBackground = true)
+@Composable
+fun RecordsPreview() {
+    val mockRecords = listOf(
+        ScoreRecord(date = "05.03.2024", score = 150),
+        ScoreRecord(date = "04.03.2024", score = 92),
+        ScoreRecord(date = "01.03.2024", score = 45)
+    )
+
+    RecordScreenContent(
+        onBack = {},
+        state = RecordsUiState(records = mockRecords)
+    )
+}
