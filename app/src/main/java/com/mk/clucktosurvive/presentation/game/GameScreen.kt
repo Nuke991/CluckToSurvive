@@ -120,18 +120,20 @@ fun GameScreen(
             Canvas(modifier = Modifier.fillMaxSize()) {
 
                 state.platforms.forEach { platform ->
+                   if(platform.yDp > -platform.heightDp  &&  platform.yDp < viewModel.screenHeightDp) {
 
-                    drawImage(
-                        image = platformsBitmaps.getValue(platform.platformType),
-                        dstOffset = IntOffset(
-                            (platform.xDp * density).toInt(),
-                            (platform.yDp * density).toInt()
-                        ),
-                        dstSize = IntSize(
-                            (platform.widthDp * density).toInt(),
-                            (platform.heightDp * density).toInt()
-                        )
-                    )
+                       drawImage(
+                           image = platformsBitmaps.getValue(platform.platformType),
+                           dstOffset = IntOffset(
+                               (platform.xDp * density).toInt(),
+                               (platform.yDp * density).toInt()
+                           ),
+                           dstSize = IntSize(
+                               (platform.widthDp * density).toInt(),
+                               (platform.heightDp * density).toInt()
+                           )
+                       )
+                   }
                 }
 
                 drawImage(

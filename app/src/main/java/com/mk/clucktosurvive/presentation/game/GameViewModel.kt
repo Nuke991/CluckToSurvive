@@ -65,7 +65,7 @@ data class GameUiState(
 
 class GameViewModel(var repository: RecordRepository) : ViewModel() {
     private var screenWidthDp: Float = 0f
-    private var screenHeightDp: Float = 2000f
+    public var screenHeightDp: Float = 2000f
     private val _uiState = MutableStateFlow(GameUiState())
     val uiState: StateFlow<GameUiState> = _uiState.asStateFlow()
     private var gameJob: Job? = null
