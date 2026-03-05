@@ -37,7 +37,7 @@ fun PauseScreen(onResume: () -> Unit, onExit: () -> Unit) {
             painter = painterResource(id = R.drawable.pausescreen),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
-            contentScale = androidx.compose.ui.layout.ContentScale.Crop
+            contentScale = ContentScale.Crop
         )
 
         Column(
@@ -72,7 +72,7 @@ fun PauseScreen(onResume: () -> Unit, onExit: () -> Unit) {
                     painter = painterResource(id = R.drawable.pause_resume),
                     contentDescription = null,
                     modifier = Modifier.matchParentSize(),
-                    contentScale = androidx.compose.ui.layout.ContentScale.FillBounds
+                    contentScale = ContentScale.FillBounds
                 )
                 Text(
                     text = stringResource(id = R.string.pause_resume),
@@ -98,7 +98,7 @@ fun PauseScreen(onResume: () -> Unit, onExit: () -> Unit) {
                     painter = painterResource(id = R.drawable.pause_exit),
                     contentDescription = null,
                     modifier = Modifier.matchParentSize(),
-                    contentScale = androidx.compose.ui.layout.ContentScale.FillBounds
+                    contentScale = ContentScale.FillBounds
                 )
                 Text(
                     text = stringResource(id = R.string.pause_button_exit),
@@ -112,7 +112,7 @@ fun PauseScreen(onResume: () -> Unit, onExit: () -> Unit) {
 
 @Preview(showBackground = true)
 @Composable
-fun pausescreenpreview(){
+fun Pausescreenpreview(){
     PauseScreen(
         onResume = {},
         onExit = {}

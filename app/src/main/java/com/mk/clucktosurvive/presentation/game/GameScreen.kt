@@ -267,13 +267,13 @@ fun GameScreenPreview() {
                 platformSize.getValue(PlatformType.BIG).second,
             ),
 
-        );
+        )
 
         val mockState = GameUiState(
             character = Character(150f, 600f),
             platforms = mockPlatforms
 
-        );
+        )
 
 
 
