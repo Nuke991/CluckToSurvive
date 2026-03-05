@@ -2,6 +2,7 @@ package com.mk.clucktosurvive.presentation.game
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,9 +13,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,6 +43,9 @@ fun GameOverScreen(viewModel: GameViewModel = koinViewModel(), onPlayAgain: () -
 
 @Composable
 fun GameOverScreenContent(onPlayAgain: () -> Unit, onBack: () -> Unit, state:GameUiState) {
+    val backInteraction = remember { MutableInteractionSource() }
+    val playAgainInteraction = remember { MutableInteractionSource() }
+
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(id = R.drawable.gameoverscreen),
@@ -54,7 +60,11 @@ fun GameOverScreenContent(onPlayAgain: () -> Unit, onBack: () -> Unit, state:Gam
                 .align(Alignment.TopStart)
                 .padding(top = 65.dp, start = 30.dp)
                 .size(55.dp)
-                .clickable { onBack() }
+                .clickable(
+                    interactionSource = backInteraction,
+                    indication = ripple(bounded = false, color = Color.Black.copy(alpha = 0.3f)),
+                    onClick = onBack
+                )
         ) {
             Image(
                 painter = painterResource(id = R.drawable.returnbutton),
@@ -103,7 +113,11 @@ fun GameOverScreenContent(onPlayAgain: () -> Unit, onBack: () -> Unit, state:Gam
                 modifier = Modifier
                     .fillMaxWidth(0.75f)
                     .height(80.dp)
-                    .clickable { onPlayAgain() }
+                    .clickable(
+                        interactionSource = playAgainInteraction,
+                        indication = ripple(bounded = false, color = Color.Black.copy(alpha = 0.2f)),
+                        onClick = onPlayAgain
+                    )
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.button_playagain),

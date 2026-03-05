@@ -2,6 +2,7 @@ package com.mk.clucktosurvive.presentation.game
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,12 +19,18 @@ import androidx.compose.ui.unit.dp
 import com.mk.clucktosurvive.R
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.ripple
+import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import com.mk.clucktosurvive.theme.MainButtonColor
 
 @Composable
 fun PauseScreen(onResume: () -> Unit, onExit: () -> Unit) {
+    val resumeIntercation = remember { MutableInteractionSource() }
+    val exitIntercation = remember { MutableInteractionSource() }
+
     Box(modifier = Modifier.fillMaxSize()) {
 
         Image(
@@ -55,7 +62,11 @@ fun PauseScreen(onResume: () -> Unit, onExit: () -> Unit) {
                     .fillMaxWidth(0.85f)
                     .height(100.dp)
                     .padding(vertical = 8.dp)
-                    .clickable { onResume() }
+                    .clickable(
+                        interactionSource = resumeIntercation,
+                        indication = ripple(bounded = false, color = Color.Black.copy(alpha = 0.2f)),
+                        onClick = onResume
+                    )
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.pause_resume),
@@ -77,7 +88,11 @@ fun PauseScreen(onResume: () -> Unit, onExit: () -> Unit) {
                     .fillMaxWidth(0.85f)
                     .height(100.dp)
                     .padding(vertical = 8.dp)
-                    .clickable { onExit() }
+                    .clickable(
+                        interactionSource = exitIntercation,
+                        indication = ripple(bounded = false, color = Color.Black.copy(alpha = 0.2f)),
+                        onClick = onExit
+                    )
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.pause_exit),

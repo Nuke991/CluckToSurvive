@@ -2,12 +2,16 @@ package com.mk.clucktosurvive.presentation.menu
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -24,6 +28,10 @@ fun MenuScreen(
     onRecordsClick: () -> Unit,
     onPrivacyClick: () -> Unit
 ) {
+    val startIntercation = remember { MutableInteractionSource() }
+    val recordsIntercation = remember { MutableInteractionSource() }
+    val policyIntercation = remember { MutableInteractionSource() }
+
     Box(modifier = Modifier.fillMaxSize()) {
 
         Image(
@@ -45,7 +53,11 @@ fun MenuScreen(
                     .fillMaxWidth(0.65f)
                     .padding(vertical = 12.dp)
                     .height(70.dp)
-                    .clickable { onStartClick() }
+                    .clickable(
+                        interactionSource = startIntercation,
+                        indication = ripple(bounded = false, color = Color.Black.copy(alpha = 0.2f)),
+                        onClick = onStartClick
+                    )
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.button_start),
@@ -67,7 +79,11 @@ fun MenuScreen(
                     .fillMaxWidth(0.65f)
                     .padding(vertical = 12.dp)
                     .height(70.dp)
-                    .clickable { onRecordsClick() }
+                    .clickable(
+                        interactionSource = recordsIntercation,
+                        indication = ripple(bounded = false, color = Color.Black.copy(alpha = 0.2f)),
+                        onClick = onRecordsClick
+                    )
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.button_records),
@@ -89,7 +105,11 @@ fun MenuScreen(
                     .fillMaxWidth(0.65f)
                     .padding(vertical = 12.dp)
                     .height(70.dp)
-                    .clickable { onPrivacyClick() }
+                    .clickable(
+                        interactionSource = policyIntercation,
+                        indication = ripple(bounded = false, color = Color.Black.copy(alpha = 0.2f)),
+                        onClick = onPrivacyClick
+                    )
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.button_privacy_policy),

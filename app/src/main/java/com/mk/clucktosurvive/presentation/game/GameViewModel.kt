@@ -64,7 +64,7 @@ class GameViewModel(var repository: RecordRepository) : ViewModel() {
     private  val MERGE_Y = 17f
 
     private var screenWidthDp: Float = 0f
-    public var screenHeightDp: Float = 0f
+    var screenHeightDp: Float = 0f
     private val _uiState = MutableStateFlow(GameUiState())
     val uiState: StateFlow<GameUiState> = _uiState.asStateFlow()
     private var gameJob: Job? = null
@@ -90,15 +90,15 @@ class GameViewModel(var repository: RecordRepository) : ViewModel() {
         val plList = mutableListOf<Platform>()
 
         var platformYdp = 600f
-        var isFirst: Boolean = true
+        var isFirst = true
 
 
         do {
             val platformType: PlatformType = PlatformType.entries[(0..1).random()]
 
             val platformSize = platformSize.getValue(platformType)
-            var bitmapWidth = platformSize.first
-            var bitmapHeight = platformSize.second
+            val bitmapWidth = platformSize.first
+            val bitmapHeight = platformSize.second
 
 
             val platformXdp: Float = if (isFirst) {
