@@ -14,6 +14,7 @@ import com.mk.clucktosurvive.theme.CluckToSurviveTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             CluckToSurviveTheme {
                 Surface(

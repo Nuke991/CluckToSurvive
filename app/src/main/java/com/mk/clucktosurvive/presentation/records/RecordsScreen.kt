@@ -33,45 +33,6 @@ import com.mk.clucktosurvive.presentation.components.ReturnButton
 import org.koin.androidx.compose.koinViewModel
 
 
-@Composable
-fun RecordItem(record: ScoreRecord) {
-    Box(
-        modifier = Modifier
-            .width(270.dp)
-            .height(75.dp),
-        contentAlignment = Alignment.Center
-    ) {
-
-        Image(
-            painter = painterResource(id = R.drawable.record_panel),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.FillBounds
-        )
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 45.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = record.date,
-                color = Color.White,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
-            )
-            Text(
-                text = "${record.score}M",
-                color = Color.White,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
-            )
-        }
-    }
-}
-
 
 @Composable
 fun RecordsScreen(
@@ -132,6 +93,46 @@ private fun RecordScreenContent(
                 )
             }
 
+        }
+    }
+}
+
+
+@Composable
+fun RecordItem(record: ScoreRecord) {
+    Box(
+        modifier = Modifier
+            .width(270.dp)
+            .height(75.dp),
+        contentAlignment = Alignment.Center
+    ) {
+
+        Image(
+            painter = painterResource(id = R.drawable.record_panel),
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.FillBounds
+        )
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 45.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = record.date,
+                color = Color.White,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = "${record.score}M",
+                color = Color.White,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold
+            )
         }
     }
 }
