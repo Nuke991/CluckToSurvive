@@ -35,6 +35,8 @@ import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -43,6 +45,9 @@ fun GameScreen(
     onPlayAgain: () -> Unit,
     onExit: () -> Unit
 ) {
+    LifecycleEventEffect(Lifecycle.Event.ON_PAUSE) {
+        viewModel.onPauseClick()
+    }
 
     val state by viewModel.uiState.collectAsState()
     var isScreenReady by remember { mutableStateOf(false) }
