@@ -1,6 +1,7 @@
 package com.mk.clucktosurvive.presentation.game
 
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
@@ -51,6 +52,16 @@ fun GameScreen(
 
     val state by viewModel.uiState.collectAsState()
     var isScreenReady by remember { mutableStateOf(false) }
+
+    BackHandler {
+        when {
+            state.isGameOver -> onExit()
+
+            state.isPaused -> viewModel.onResumeClick()
+
+            else -> viewModel.onPauseClick()
+        }
+    }
 
 
 
