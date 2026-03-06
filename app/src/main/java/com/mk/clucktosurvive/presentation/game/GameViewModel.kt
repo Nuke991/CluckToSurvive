@@ -59,7 +59,7 @@ data class GameUiState(
 )
 
 
-class GameViewModel(var repository: RecordRepository) : ViewModel() {
+class GameViewModel(val repository: RecordRepository) : ViewModel() {
 
     private  val MERGE_Y = 17f
 

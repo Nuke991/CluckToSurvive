@@ -4,7 +4,9 @@ package com.mk.clucktosurvive.presentation.records
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -54,45 +56,50 @@ private fun RecordScreenContent(
     onBack: () -> Unit,
     state: RecordsUiState
 ) {
-    Box(modifier = Modifier.fillMaxSize())
-    {
+    Box(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(id = R.drawable.recordsscreen),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
         )
+
         ReturnButton(
             modifier = Modifier
                 .align(Alignment.TopStart)
                 .padding(top = 65.dp, start = 30.dp),
             onBack = onBack
         )
-        Text(
-            text = stringResource(id = R.string.records_screen_head),
+
+        Column(
             modifier = Modifier
-                .align(Alignment.TopStart)
-                .padding(top = 124.dp, start = 100.dp),
-            style = TextStyle(
-                color = Color.White, fontSize = 25.sp,
-                fontWeight = FontWeight.ExtraBold
-            )
-        )
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 180.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+                .fillMaxSize()
+                .padding(horizontal = 20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            items(state.records) { record ->
+            Spacer(modifier = Modifier.height(124.dp))
 
-                RecordItem(
-                    record
-
+            Text(
+                text = stringResource(id = R.string.records_screen_head),
+                style = TextStyle(
+                    color = Color.White,
+                    fontSize = 25.sp,
+                    fontWeight = FontWeight.ExtraBold
                 )
-            }
+            )
 
+            Spacer(modifier = Modifier.height(30.dp))
+
+
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(state.records) { record ->
+                    RecordItem(record)
+                }
+            }
         }
     }
 }

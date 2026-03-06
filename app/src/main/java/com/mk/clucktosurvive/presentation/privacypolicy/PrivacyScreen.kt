@@ -2,7 +2,10 @@ package com.mk.clucktosurvive.presentation.privacypolicy
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -37,19 +40,27 @@ fun PrivacyScreen(onBack: () -> Unit) {
             onBack = onBack
         )
 
-
-
-        Text(
-            text = stringResource(id = R.string.privacy_police_head),
+        Column(
             modifier = Modifier
-                .align(Alignment.TopStart)
-                .padding(top = 124.dp, start = 100.dp),
-            style = TextStyle(
-                color = Color.White, fontSize = 25.sp,
-                fontWeight = FontWeight.ExtraBold
-            )
-        )
+                .fillMaxSize()
+                .padding(horizontal = 20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
 
+            Spacer(modifier = Modifier.height(124.dp))
+
+
+            Text(
+                text  = stringResource(id = R.string.privacy_police_head),
+                style = TextStyle(
+                    color = Color.White,
+                    fontSize = 25.sp,
+                    fontWeight = FontWeight.ExtraBold
+                )
+            )
+
+            Spacer(modifier = Modifier.height(30.dp))
+        }
 
     }
 }
@@ -57,7 +68,7 @@ fun PrivacyScreen(onBack: () -> Unit) {
 
 @Preview(showBackground = true)
 @Composable
-fun privacyscreenpreview() {
+fun Privacyscreenpreview() {
 
     PrivacyScreen(
         onBack = {}
