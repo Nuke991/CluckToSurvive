@@ -32,6 +32,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -220,7 +221,7 @@ private fun BoxScope.GameScreenContent(
         )
         Text(
             text = "${state.score}M",
-            color = Color.White,
+            color = colorResource(id = R.color.deep_blue),
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp
         )

@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -33,7 +34,7 @@ import com.mk.clucktosurvive.R
 import com.mk.clucktosurvive.domain.model.ScoreRecord
 import com.mk.clucktosurvive.presentation.components.ReturnButton
 import org.koin.androidx.compose.koinViewModel
-
+import com.mk.clucktosurvive.theme.DeepBlue
 
 
 @Composable
@@ -130,13 +131,13 @@ fun RecordItem(record: ScoreRecord) {
         ) {
             Text(
                 text = record.date,
-                color = Color.White,
+                color = colorResource(id = R.color.deep_blue),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold
             )
             Text(
                 text = "${record.score}M",
-                color = Color.White,
+                color = colorResource(id = R.color.deep_blue),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold
             )

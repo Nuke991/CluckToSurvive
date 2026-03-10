@@ -11,3 +11,5 @@ val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
 val MainButtonColor = Color(0xFF5D1F00)
+
+val DeepBlue = Color(0xFF16167C)

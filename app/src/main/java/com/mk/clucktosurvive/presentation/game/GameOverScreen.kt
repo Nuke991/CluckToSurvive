@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -102,7 +103,7 @@ fun GameOverScreenContent(onPlayAgain: () -> Unit, onBack: () -> Unit, state:Gam
                     text = "${state.score}M",
                     style = MaterialTheme.typography.bodyLarge.copy(
                         fontSize = 22.sp,
-                        color = Color.White
+                        color = colorResource(id = R.color.deep_blue),
                     )
                 )
             }
@@ -128,7 +129,7 @@ fun GameOverScreenContent(onPlayAgain: () -> Unit, onBack: () -> Unit, state:Gam
                 Text(
                     text = stringResource(id = R.string.game_over_play_again),
                     style = MaterialTheme.typography.bodyLarge,
-                    color = MainButtonColor
+                    color = colorResource(id = R.color.deep_blue)
                 )
             }
         }
