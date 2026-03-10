@@ -35,7 +35,7 @@ fun MenuScreen(
     Box(modifier = Modifier.fillMaxSize()) {
 
         Image(
-            painter = painterResource(id = R.drawable.menu_main),
+            painter = painterResource(id = R.drawable.basic_screen),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
@@ -60,7 +60,7 @@ fun MenuScreen(
                     )
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.button_start),
+                    painter = painterResource(id = R.drawable.standard_button),
                     contentDescription = null,
                     modifier = Modifier.matchParentSize(),
                     contentScale = ContentScale.FillBounds
@@ -86,7 +86,7 @@ fun MenuScreen(
                     )
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.button_records),
+                    painter = painterResource(id = R.drawable.standard_button),
                     contentDescription = null,
                     modifier = Modifier.matchParentSize(),
                     contentScale = ContentScale.FillBounds
@@ -112,7 +112,7 @@ fun MenuScreen(
                     )
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.button_privacy_policy),
+                    painter = painterResource(id = R.drawable.standard_button),
                     contentDescription = null,
                     modifier = Modifier.matchParentSize(),
                     contentScale = ContentScale.FillBounds

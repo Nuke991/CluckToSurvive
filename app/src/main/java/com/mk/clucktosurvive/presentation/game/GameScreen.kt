@@ -78,7 +78,7 @@ fun GameScreen(
         )
     } else {
         val density = androidx.compose.ui.platform.LocalDensity.current.density
-        val characterBitmap = ImageBitmap.imageResource(R.drawable.character1)
+        val characterBitmap = ImageBitmap.imageResource(R.drawable.character)
 
 
         val platformsBitmaps: Map<PlatformType, ImageBitmap> = mapOf(
@@ -214,7 +214,7 @@ private fun BoxScope.GameScreenContent(
         contentAlignment = Alignment.Center
     ) {
         Image(
-            painter = painterResource(id = R.drawable.records_screen),
+            painter = painterResource(id = R.drawable.record_button),
             contentDescription = null,
             modifier = Modifier.size(width = 119.dp, height = 55.dp)
         )
@@ -258,7 +258,7 @@ fun GameScreenPreview() {
                     )
         )
         val density = androidx.compose.ui.platform.LocalDensity.current.density
-        val characterBitmap = ImageBitmap.imageResource(R.drawable.character1)
+        val characterBitmap = ImageBitmap.imageResource(R.drawable.character)
 
 
         val mockPlatforms: List<Platform> = listOf(

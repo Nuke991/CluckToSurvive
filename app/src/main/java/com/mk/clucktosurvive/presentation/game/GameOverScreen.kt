@@ -81,7 +81,7 @@ fun GameOverScreenContent(onPlayAgain: () -> Unit, onBack: () -> Unit, state:Gam
         ) {
 
             Image(
-                painter = painterResource(id = R.drawable.gameovertext),
+                painter = painterResource(id = R.drawable.game_over_text),
                 contentDescription = null,
                 modifier = Modifier.fillMaxWidth(0.8f),
                 contentScale = ContentScale.FillWidth
@@ -93,7 +93,7 @@ fun GameOverScreenContent(onPlayAgain: () -> Unit, onBack: () -> Unit, state:Gam
                 modifier = Modifier.padding(vertical = 20.dp).size(width = 150.dp, height = 65.dp)
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.small_recordsbutton),
+                    painter = painterResource(id = R.drawable.record_button),
                     contentDescription = null,
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.FillBounds
@@ -120,7 +120,7 @@ fun GameOverScreenContent(onPlayAgain: () -> Unit, onBack: () -> Unit, state:Gam
                     )
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.button_playagain),
+                    painter = painterResource(id = R.drawable.standard_button),
                     contentDescription = null,
                     modifier = Modifier.matchParentSize(),
                     contentScale = ContentScale.FillBounds

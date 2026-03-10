@@ -28,7 +28,7 @@ fun PrivacyScreen(onBack: () -> Unit) {
     Box(modifier = Modifier.fillMaxSize())
     {
         Image(
-            painter = painterResource(id = R.drawable.privacyscreen),
+            painter = painterResource(id = R.drawable.basic_screen),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop

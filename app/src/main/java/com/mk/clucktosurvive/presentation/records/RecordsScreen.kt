@@ -58,7 +58,7 @@ private fun RecordScreenContent(
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
-            painter = painterResource(id = R.drawable.recordsscreen),
+            painter = painterResource(id = R.drawable.basic_screen),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop

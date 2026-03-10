@@ -34,7 +34,7 @@ fun PauseScreen(onResume: () -> Unit, onExit: () -> Unit) {
     Box(modifier = Modifier.fillMaxSize()) {
 
         Image(
-            painter = painterResource(id = R.drawable.pausescreen),
+            painter = painterResource(id = R.drawable.basic_screen),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
@@ -47,7 +47,7 @@ fun PauseScreen(onResume: () -> Unit, onExit: () -> Unit) {
         ) {
 
             Image(
-                painter = painterResource(id = R.drawable.pausetext),
+                painter = painterResource(id = R.drawable.pause_screen_text),
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth(0.9f)
@@ -69,7 +69,7 @@ fun PauseScreen(onResume: () -> Unit, onExit: () -> Unit) {
                     )
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.pause_resume),
+                    painter = painterResource(id = R.drawable.standard_button),
                     contentDescription = null,
                     modifier = Modifier.matchParentSize(),
                     contentScale = ContentScale.FillBounds
@@ -95,7 +95,7 @@ fun PauseScreen(onResume: () -> Unit, onExit: () -> Unit) {
                     )
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.pause_exit),
+                    painter = painterResource(id = R.drawable.standard_button),
                     contentDescription = null,
                     modifier = Modifier.matchParentSize(),
                     contentScale = ContentScale.FillBounds
