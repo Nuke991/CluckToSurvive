@@ -29,7 +29,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mk.clucktosurvive.R
-import com.mk.clucktosurvive.theme.MainButtonColor
 import org.koin.androidx.compose.koinViewModel
 
 @Composable

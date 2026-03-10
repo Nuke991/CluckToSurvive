@@ -34,7 +34,7 @@ import com.mk.clucktosurvive.R
 import com.mk.clucktosurvive.domain.model.ScoreRecord
 import com.mk.clucktosurvive.presentation.components.ReturnButton
 import org.koin.androidx.compose.koinViewModel
-import com.mk.clucktosurvive.theme.DeepBlue
+
 
 
 @Composable
