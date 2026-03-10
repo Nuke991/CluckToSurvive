@@ -1,0 +1,311 @@
+package com.mk.highfiler.presentation.game
+
+
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.gestures.rememberDraggableState
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import com.mk.highfiler.R
+import com.mk.highfiler.presentation.components.PauseButton
+import androidx.compose.runtime.remember
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntSize
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Text
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
+import org.koin.androidx.compose.koinViewModel
+
+@Composable
+fun GameScreen(
+    viewModel: GameViewModel = koinViewModel(),
+    onPlayAgain: () -> Unit,
+    onExit: () -> Unit
+) {
+    LifecycleEventEffect(Lifecycle.Event.ON_PAUSE) {
+        viewModel.onPauseClick()
+    }
+
+    val state by viewModel.uiState.collectAsState()
+    var isScreenReady by remember { mutableStateOf(false) }
+
+    BackHandler {
+        when {
+            state.isGameOver -> onExit()
+
+            state.isPaused -> viewModel.onResumeClick()
+
+            else -> viewModel.onPauseClick()
+        }
+    }
+
+
+
+    if (state.isGameOver) {
+        GameOverScreen(
+            onPlayAgain = onPlayAgain,
+            onBack = onExit
+        )
+
+    } else if (state.isPaused) {
+        PauseScreen(
+            onResume = { viewModel.onResumeClick() },
+            onExit = onExit
+        )
+    } else {
+        val density = androidx.compose.ui.platform.LocalDensity.current.density
+        val characterBitmap = ImageBitmap.imageResource(R.drawable.character)
+
+
+        val platformsBitmaps: Map<PlatformType, ImageBitmap> = mapOf(
+            PlatformType.BIG to ImageBitmap.imageResource(PlatformType.BIG.resourceId),
+            PlatformType.SMALL to ImageBitmap.imageResource(PlatformType.SMALL.resourceId)
+        )
+
+        val platformSize: Map<PlatformType, Pair<Int, Int>> = mapOf(
+            PlatformType.BIG to
+                    Pair(
+                        platformsBitmaps.getValue(PlatformType.BIG).width,
+                        platformsBitmaps.getValue(PlatformType.BIG).height
+                    ),
+            PlatformType.SMALL to
+                    Pair(
+                        platformsBitmaps.getValue(PlatformType.SMALL).width,
+                        platformsBitmaps.getValue(PlatformType.SMALL).height
+                    )
+        )
+
+
+
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .onGloballyPositioned { coordinates ->
+                    if (!isScreenReady) {
+                        val widthPx = coordinates.size.width.toFloat()
+                        val heightPx = coordinates.size.height.toFloat()
+                        viewModel.updateScreenSize(widthPx, heightPx, density)
+                        viewModel.resetGame(
+                            charWidthPx = characterBitmap.width.toFloat(),
+                            charHeightPx = characterBitmap.height.toFloat(),
+                            platformSize
+
+                        )
+
+                        isScreenReady = true
+                    }
+
+
+                }
+                .draggable(
+                    orientation = Orientation.Horizontal,
+                    state = rememberDraggableState { delta -> viewModel.onDrag(delta, density) })
+        )
+        {
+
+
+            GameScreenContent(
+                state,
+                platformsBitmaps,
+                density,
+                characterBitmap,
+                { viewModel.onPauseClick() },
+                viewModel.screenHeightDp
+            )
+
+
+        }
+
+    }
+    if (isScreenReady) {
+        LaunchedEffect(Unit) {
+            viewModel.startGame()
+        }
+    }
+}
+
+@Composable
+private fun BoxScope.GameScreenContent(
+    state: GameUiState,
+    platformsBitmaps: Map<PlatformType, ImageBitmap>,
+    density: Float,
+    characterBitmap: ImageBitmap,
+    onPauseClick: () -> Unit,
+    screenHeightDp: Float
+) {
+    Image(
+        painter = painterResource(id = R.drawable.gamescreen),
+        contentDescription = null,
+        modifier = Modifier.fillMaxSize(),
+        contentScale = ContentScale.Crop
+    )
+
+    Canvas(modifier = Modifier.fillMaxSize()) {
+
+        state.platforms.forEach { platform ->
+            if (platform.yDp > -platform.heightDp && platform.yDp < screenHeightDp) {
+
+                drawImage(
+                    image = platformsBitmaps.getValue(platform.platformType),
+                    dstOffset = IntOffset(
+                        (platform.xDp * density).toInt(),
+                        (platform.yDp * density).toInt()
+                    ),
+                    dstSize = IntSize(
+                        (platform.widthDp * density).toInt(),
+                        (platform.heightDp * density).toInt()
+                    )
+                )
+            }
+        }
+
+        drawImage(
+            image = characterBitmap,
+            dstOffset = IntOffset(
+                (state.character.xDp * density).toInt(),
+                (state.character.yDp * density).toInt()
+            ),
+            dstSize = IntSize(
+                (characterBitmap.width * density).toInt(),
+                (characterBitmap.height * density).toInt()
+            )
+        )
+    }
+    PauseButton(
+        modifier = Modifier
+            .align(Alignment.TopStart)
+            .padding(top = 65.dp, start = 30.dp),
+        onPauseClick = {
+
+            onPauseClick()
+
+        }
+    )
+
+    Box(
+        modifier = Modifier
+            .padding(top = 65.dp, end = 30.dp)
+            .align(Alignment.TopEnd),
+        contentAlignment = Alignment.Center
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.record_button),
+            contentDescription = null,
+            modifier = Modifier.size(width = 119.dp, height = 55.dp)
+        )
+        Text(
+            text = "${state.score}M",
+            color = colorResource(id = R.color.deep_blue),
+            fontWeight = FontWeight.Bold,
+            fontSize = 16.sp
+        )
+
+    }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun GameScreenPreview() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+
+    ) {
+
+
+        val platformsBitmaps: Map<PlatformType, ImageBitmap> = mapOf(
+            PlatformType.BIG to ImageBitmap.imageResource(PlatformType.BIG.resourceId),
+            PlatformType.SMALL to ImageBitmap.imageResource(PlatformType.SMALL.resourceId)
+        )
+
+
+        val platformSize: Map<PlatformType, Pair<Int, Int>> = mapOf(
+            PlatformType.BIG to
+                    Pair(
+                        platformsBitmaps.getValue(PlatformType.BIG).width,
+                        platformsBitmaps.getValue(PlatformType.BIG).height
+                    ),
+            PlatformType.SMALL to
+                    Pair(
+                        platformsBitmaps.getValue(PlatformType.SMALL).width,
+                        platformsBitmaps.getValue(PlatformType.SMALL).height
+                    )
+        )
+        val density = androidx.compose.ui.platform.LocalDensity.current.density
+        val characterBitmap = ImageBitmap.imageResource(R.drawable.character)
+
+
+        val mockPlatforms: List<Platform> = listOf(
+            Platform(
+                PlatformType.SMALL, 300f, 400f,
+                platformSize.getValue(PlatformType.SMALL).first,
+                platformSize.getValue(PlatformType.SMALL).second,
+            ),
+            Platform(
+                PlatformType.SMALL, 150f, 700f,
+                platformSize.getValue(PlatformType.SMALL).first,
+                platformSize.getValue(PlatformType.SMALL).second,
+            ),
+            Platform(
+                PlatformType.BIG, 90f, 300f,
+                platformSize.getValue(PlatformType.BIG).first,
+                platformSize.getValue(PlatformType.BIG).second,
+            ),
+            Platform(
+                PlatformType.BIG, 200f, 600f,
+                platformSize.getValue(PlatformType.BIG).first,
+                platformSize.getValue(PlatformType.BIG).second,
+            ),
+
+        )
+
+        val mockState = GameUiState(
+            character = Character(150f, 600f),
+            platforms = mockPlatforms
+
+        )
+
+
+
+        GameScreenContent(
+            mockState,
+            platformsBitmaps,
+            density,
+            characterBitmap,
+            { },
+            3000f
+        )
+
+
+    }
+}
+
+
+
+

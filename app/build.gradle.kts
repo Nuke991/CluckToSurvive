@@ -6,13 +6,13 @@ plugins {
 }
 
 android {
-    namespace = "com.mk.clucktosurvive"
+    namespace = "com.mk.highfiler"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "com.mk.clucktosurvive"
+        applicationId = "com.mk.highfiler"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
