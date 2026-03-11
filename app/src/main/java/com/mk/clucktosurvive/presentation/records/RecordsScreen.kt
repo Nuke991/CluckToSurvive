@@ -32,6 +32,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mk.clucktosurvive.R
 import com.mk.clucktosurvive.domain.model.ScoreRecord
 import com.mk.clucktosurvive.presentation.components.ReturnButton
+import com.mk.clucktosurvive.theme.DeepRed
 import org.koin.androidx.compose.koinViewModel
 
 
@@ -130,13 +131,13 @@ fun RecordItem(record: ScoreRecord) {
         ) {
             Text(
                 text = record.date,
-                color = Color.White,
+                color = DeepRed,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold
             )
             Text(
                 text = "${record.score}M",
-                color = Color.White,
+                color = DeepRed,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold
             )
