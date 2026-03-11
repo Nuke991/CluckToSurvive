@@ -18,6 +18,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mk.clucktosurvive.R
+import com.mk.clucktosurvive.theme.DarkGreen
+import com.mk.clucktosurvive.theme.DeepRed
 import com.mk.clucktosurvive.theme.MainButtonColor
 
 
@@ -68,7 +70,7 @@ fun MenuScreen(
                 Text(
                     text = stringResource(id = R.string.menu_button_start),
                     style = MaterialTheme.typography.bodyLarge,
-                    color = MainButtonColor
+                    color = DarkGreen
                 )
             }
 
@@ -86,7 +88,7 @@ fun MenuScreen(
                     )
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.green_button),
+                    painter = painterResource(id = R.drawable.red_button),
                     contentDescription = null,
                     modifier = Modifier.matchParentSize(),
                     contentScale = ContentScale.FillBounds
@@ -94,7 +96,7 @@ fun MenuScreen(
                 Text(
                     text = stringResource(id = R.string.menu_button_records),
                     style = MaterialTheme.typography.bodyLarge,
-                    color = MainButtonColor
+                    color = DeepRed
                 )
             }
 
@@ -120,7 +122,7 @@ fun MenuScreen(
                 Text(
                     text = stringResource(id = R.string.menu_button_privacy),
                     style = MaterialTheme.typography.bodyLarge,
-                    color = MainButtonColor
+                    color = DeepRed
                 )
             }
         }

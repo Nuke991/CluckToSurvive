@@ -25,6 +25,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import com.mk.clucktosurvive.theme.DarkGreen
+import com.mk.clucktosurvive.theme.DeepRed
 import com.mk.clucktosurvive.theme.MainButtonColor
 
 @Composable
@@ -76,7 +78,7 @@ fun PauseScreen(onResume: () -> Unit, onExit: () -> Unit) {
                 Text(
                     text = stringResource(id = R.string.pause_resume),
                     style = MaterialTheme.typography.bodyLarge,
-                    color = MainButtonColor
+                    color = DarkGreen
                 )
             }
 
@@ -102,7 +104,7 @@ fun PauseScreen(onResume: () -> Unit, onExit: () -> Unit) {
                 Text(
                     text = stringResource(id = R.string.pause_button_exit),
                     style = MaterialTheme.typography.bodyLarge,
-                    color = MainButtonColor
+                    color = DeepRed
                 )
             }
         }

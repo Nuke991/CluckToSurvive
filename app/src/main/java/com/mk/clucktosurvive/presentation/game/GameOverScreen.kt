@@ -28,6 +28,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mk.clucktosurvive.R
+import com.mk.clucktosurvive.theme.DarkGreen
+import com.mk.clucktosurvive.theme.DeepRed
 import com.mk.clucktosurvive.theme.MainButtonColor
 
 
@@ -96,7 +98,7 @@ fun GameOverScreen(
                     text = "${score}M",
                     style = MaterialTheme.typography.bodyLarge.copy(
                         fontSize = 22.sp,
-                        color = Color.White,
+                        color = DeepRed,
                         fontWeight = FontWeight.Bold
                     )
                 )
@@ -123,7 +125,7 @@ fun GameOverScreen(
                 Text(
                     text = stringResource(id = R.string.game_over_play_again),
                     style = MaterialTheme.typography.bodyLarge,
-                    color = MainButtonColor
+                    color = DarkGreen
                 )
             }
         }

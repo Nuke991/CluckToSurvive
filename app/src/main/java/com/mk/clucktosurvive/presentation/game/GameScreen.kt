@@ -38,6 +38,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
+import com.mk.clucktosurvive.theme.DeepRed
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -233,7 +234,7 @@ private fun BoxScope.GameScreenContent(
         )
         Text(
             text = "${state.score}M",
-            color = Color.White,
+            color = DeepRed,
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp
         )
