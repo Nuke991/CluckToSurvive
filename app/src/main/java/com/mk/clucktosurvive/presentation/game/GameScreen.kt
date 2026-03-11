@@ -65,18 +65,7 @@ fun GameScreen(
 
 
 
-    if (state.isGameOver) {
-        GameOverScreen(
-            onPlayAgain = onPlayAgain,
-            onBack = onExit
-        )
 
-    } else if (state.isPaused) {
-        PauseScreen(
-            onResume = { viewModel.onResumeClick() },
-            onExit = onExit
-        )
-    } else {
         val density = androidx.compose.ui.platform.LocalDensity.current.density
         val characterBitmap = ImageBitmap.imageResource(R.drawable.character1)
 
@@ -153,10 +142,10 @@ fun GameScreen(
                 )
             }
 
-            // 3. ВЕРХНІЙ ШАР: Game Over (поверх гри)
+
             if (state.isGameOver) {
                 GameOverScreen(
-                    score = state.score, // Додай цей параметр у функцію екрана
+                    score = state.score,
                     onPlayAgain = {
                         viewModel.resetGame(characterBitmap.width.toFloat(), characterBitmap.height.toFloat(), platformSize)
                         onPlayAgain()
@@ -171,7 +160,7 @@ fun GameScreen(
             }
         }
     }
-}
+
 
 @Composable
 private fun BoxScope.GameScreenContent(
@@ -238,7 +227,7 @@ private fun BoxScope.GameScreenContent(
         contentAlignment = Alignment.Center
     ) {
         Image(
-            painter = painterResource(id = R.drawable.records_screen),
+            painter = painterResource(id = R.drawable.small_recordsbutton),
             contentDescription = null,
             modifier = Modifier.size(width = 119.dp, height = 55.dp)
         )
