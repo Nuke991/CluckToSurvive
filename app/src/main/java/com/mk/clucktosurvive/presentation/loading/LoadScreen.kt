@@ -69,6 +69,16 @@ fun LoadScreen(onTimeout: () -> Unit) {
                 .fillMaxWidth(0.7f)
         )
 
+        Image(
+            painter = painterResource(id = R.drawable.character_load),
+            contentDescription = null,
+            contentScale = ContentScale.FillWidth,
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .padding(top = 360.dp, start = 60.dp)
+                .fillMaxWidth(1f)
+        )
+
 
         Column(
             modifier = Modifier
