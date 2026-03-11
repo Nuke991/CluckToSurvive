@@ -52,7 +52,7 @@ fun LoadScreen(onTimeout: () -> Unit) {
     Box(modifier = Modifier.fillMaxSize()) {
 
         Image(
-            painter = painterResource(id = R.drawable.load_bg),
+            painter = painterResource(id = R.drawable.loading_screen),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop

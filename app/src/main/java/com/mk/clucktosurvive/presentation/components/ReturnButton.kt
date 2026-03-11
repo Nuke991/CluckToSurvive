@@ -22,7 +22,7 @@ fun ReturnButton(onBack: () -> Unit, modifier: Modifier = Modifier) {
             .clickable { onBack() }
     ) {
         Image(
-            painter = painterResource(id = R.drawable.returnbutton),
+            painter = painterResource(id = R.drawable.return_button),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Fit

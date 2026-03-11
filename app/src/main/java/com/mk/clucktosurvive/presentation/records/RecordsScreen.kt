@@ -58,7 +58,7 @@ private fun RecordScreenContent(
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
-            painter = painterResource(id = R.drawable.recordsscreen),
+            painter = painterResource(id = R.drawable.records_screen),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
@@ -115,7 +115,7 @@ fun RecordItem(record: ScoreRecord) {
     ) {
 
         Image(
-            painter = painterResource(id = R.drawable.record_panel),
+            painter = painterResource(id = R.drawable.records_panel),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.FillBounds

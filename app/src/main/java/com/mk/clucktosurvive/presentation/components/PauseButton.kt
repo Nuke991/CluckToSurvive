@@ -22,7 +22,7 @@ fun PauseButton(onPauseClick: () -> Unit, modifier: Modifier = Modifier) {
             .clickable { onPauseClick() }
     ) {
         Image(
-            painter = painterResource(id = R.drawable.pausebutton),
+            painter = painterResource(id = R.drawable.pause_button),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Fit

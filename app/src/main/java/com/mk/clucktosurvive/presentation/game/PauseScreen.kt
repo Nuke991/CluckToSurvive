@@ -1,6 +1,7 @@
 package com.mk.clucktosurvive.presentation.game
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -28,18 +29,16 @@ import com.mk.clucktosurvive.theme.MainButtonColor
 
 @Composable
 fun PauseScreen(onResume: () -> Unit, onExit: () -> Unit) {
-    val resumeIntercation = remember { MutableInteractionSource() }
-    val exitIntercation = remember { MutableInteractionSource() }
+    val resumeInteraction = remember { MutableInteractionSource() }
+    val exitInteraction = remember { MutableInteractionSource() }
 
-    Box(modifier = Modifier.fillMaxSize()) {
 
-        Image(
-            painter = painterResource(id = R.drawable.pausescreen),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
-        )
-
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black.copy(alpha = 0.7f))
+            .clickable(enabled = false, onClick = {})
+    ) {
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
@@ -50,26 +49,26 @@ fun PauseScreen(onResume: () -> Unit, onExit: () -> Unit) {
                 painter = painterResource(id = R.drawable.pausetext),
                 contentDescription = null,
                 modifier = Modifier
-                    .fillMaxWidth(0.9f)
-                    .padding(16.dp),
-                    contentScale = ContentScale.FillWidth
+                    .fillMaxWidth(0.7f)
+                    .padding(bottom = 32.dp),
+                contentScale = ContentScale.FillWidth
             )
 
 
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
-                    .fillMaxWidth(0.85f)
-                    .height(100.dp)
+                    .fillMaxWidth(0.75f)
+                    .height(90.dp)
                     .padding(vertical = 8.dp)
                     .clickable(
-                        interactionSource = resumeIntercation,
-                        indication = ripple(bounded = false, color = Color.Black.copy(alpha = 0.2f)),
+                        interactionSource = resumeInteraction,
+                        indication = ripple(color = Color.Black.copy(alpha = 0.2f)),
                         onClick = onResume
                     )
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.pause_resume),
+                    painter = painterResource(id = R.drawable.green_button),
                     contentDescription = null,
                     modifier = Modifier.matchParentSize(),
                     contentScale = ContentScale.FillBounds
@@ -85,17 +84,17 @@ fun PauseScreen(onResume: () -> Unit, onExit: () -> Unit) {
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
-                    .fillMaxWidth(0.85f)
-                    .height(100.dp)
+                    .fillMaxWidth(0.75f)
+                    .height(90.dp)
                     .padding(vertical = 8.dp)
                     .clickable(
-                        interactionSource = exitIntercation,
-                        indication = ripple(bounded = false, color = Color.Black.copy(alpha = 0.2f)),
+                        interactionSource = exitInteraction,
+                        indication = ripple(color = Color.Black.copy(alpha = 0.2f)),
                         onClick = onExit
                     )
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.pause_exit),
+                    painter = painterResource(id = R.drawable.red_button),
                     contentDescription = null,
                     modifier = Modifier.matchParentSize(),
                     contentScale = ContentScale.FillBounds

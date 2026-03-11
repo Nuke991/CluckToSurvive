@@ -101,50 +101,74 @@ fun GameScreen(
 
 
 
+        Box(modifier = Modifier.fillMaxSize()) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .onGloballyPositioned { coordinates ->
+                        if (!isScreenReady) {
+                            val widthPx = coordinates.size.width.toFloat()
+                            val heightPx = coordinates.size.height.toFloat()
+                            viewModel.updateScreenSize(widthPx, heightPx, density)
+                            viewModel.resetGame(
+                                charWidthPx = characterBitmap.width.toFloat(),
+                                charHeightPx = characterBitmap.height.toFloat(),
+                                platformSize
 
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .onGloballyPositioned { coordinates ->
-                    if (!isScreenReady) {
-                        val widthPx = coordinates.size.width.toFloat()
-                        val heightPx = coordinates.size.height.toFloat()
-                        viewModel.updateScreenSize(widthPx, heightPx, density)
-                        viewModel.resetGame(
-                            charWidthPx = characterBitmap.width.toFloat(),
-                            charHeightPx = characterBitmap.height.toFloat(),
-                            platformSize
+                            )
 
-                        )
+                            isScreenReady = true
+                        }
 
-                        isScreenReady = true
+
                     }
-
-
-                }
-                .draggable(
-                    orientation = Orientation.Horizontal,
-                    state = rememberDraggableState { delta -> viewModel.onDrag(delta, density) })
-        )
-        {
-
-
-            GameScreenContent(
-                state,
-                platformsBitmaps,
-                density,
-                characterBitmap,
-                { viewModel.onPauseClick() },
-                viewModel.screenHeightDp
+                    .draggable(
+                        orientation = Orientation.Horizontal,
+                        state = rememberDraggableState { delta ->
+                            viewModel.onDrag(
+                                delta,
+                                density
+                            )
+                        })
             )
+            {
 
 
+                GameScreenContent(
+                    state,
+                    platformsBitmaps,
+                    density,
+                    characterBitmap,
+                    { viewModel.onPauseClick() },
+                    viewModel.screenHeightDp
+                )
+
+
+            }
+
+            if (state.isPaused) {
+                PauseScreen(
+                    onResume = { viewModel.onResumeClick() },
+                    onExit = onExit
+                )
+            }
+
+            // 3. ВЕРХНІЙ ШАР: Game Over (поверх гри)
+            if (state.isGameOver) {
+                GameOverScreen(
+                    score = state.score, // Додай цей параметр у функцію екрана
+                    onPlayAgain = {
+                        viewModel.resetGame(characterBitmap.width.toFloat(), characterBitmap.height.toFloat(), platformSize)
+                        onPlayAgain()
+                    },
+                    onBack = onExit
+                )
+            }
         }
-
-    }
-    if (isScreenReady) {
-        LaunchedEffect(Unit) {
-            viewModel.startGame()
+        if (isScreenReady) {
+            LaunchedEffect(Unit) {
+                viewModel.startGame()
+            }
         }
     }
 }
@@ -159,7 +183,7 @@ private fun BoxScope.GameScreenContent(
     screenHeightDp: Float
 ) {
     Image(
-        painter = painterResource(id = R.drawable.gamescreen),
+        painter = painterResource(id = R.drawable.game_screen),
         contentDescription = null,
         modifier = Modifier.fillMaxSize(),
         contentScale = ContentScale.Crop
